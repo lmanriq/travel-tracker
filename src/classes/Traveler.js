@@ -3,6 +3,8 @@ class Traveler {
     this.id = null;
     this.name = null;
     this.travelerType = null;
+    this.myTrips = [];
+    this.amountSpent = 0;
   }
 
   logIn(username, password, userData) {
@@ -23,6 +25,14 @@ class Traveler {
     } else {
       return 'Incorrect username or password. Please try again.'
     }
+  }
+
+  requestTrip() {
+
+  }
+
+  chargeTrip() {
+    
   }
 }
 

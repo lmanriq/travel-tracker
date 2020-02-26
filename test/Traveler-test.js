@@ -26,16 +26,24 @@ describe('Traveler', function() {
     expect(traveler).to.be.an.instanceof(Traveler);
   });
 
-  it('should initialize without an id', function() {
+  it('should instantiate without an id', function() {
     expect(traveler.id).to.eq(null);
   });
 
-  it('should initialize without a name', function() {
+  it('should instantiate without a name', function() {
     expect(traveler.name).to.eq(null);
   });
 
-  it('should initialize without a traveler type', function() {
+  it('should instantiate without a traveler type', function() {
     expect(traveler.travelerType).to.eq(null);
+  });
+
+  it('should instantiate without trips', function() {
+    expect(traveler.myTrips).to.deep.eq([]);
+  });
+
+  it('should instantiate without money spent', function() {
+    expect(traveler.amountSpent).to.eq(0);
   });
 
   describe('logging in', function() {
@@ -66,6 +74,4 @@ describe('Traveler', function() {
       expect(traveler.travelerType).to.eq('relaxer');
     });
   });
-
-
 });
