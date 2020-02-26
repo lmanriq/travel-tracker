@@ -7,10 +7,10 @@ class Traveler {
 
   logIn(username, password, userData) {
     let valid = true;
-    let regex = /customer(?:[1-9]|[1-4][0-9]|50)$/
+    let regex = /traveler(?:[1-9]|[1-4][0-9]|50)$/
     const validPassword = 'travel2020';
     if (regex.test(username) && password === validPassword) {
-      this.id = parseInt(username.slice(7));
+      this.id = parseInt(username.slice(8));
       const matchedTraveler = userData.find(user => user.id === this.id);
       this.name = matchedTraveler.name;
       this.travelerType = matchedTraveler.travelerType;
