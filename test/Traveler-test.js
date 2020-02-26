@@ -1,21 +1,23 @@
 import chai from 'chai';
 const expect = chai.expect;
 import sampleTravelers from '../src/sample-data/sample-traveler-data';
+import User from '../src/classes/User';
 import Traveler from '../src/classes/Traveler';
 
 describe('Traveler', function() {
   let travelerData;
   let traveler;
-  //
-  // {
-  //   "id": 1,
-  //   "name": "Ham Leadbeater",
-  //   "travelerType": "relaxer"
-  // },
+  let user;
 
   beforeEach(function() {
     travelerData = sampleTravelers.travelers;
-    traveler = new Traveler(travelerData[0]);
+    const sampleUser = {
+      id: 1,
+      name: 'Ham Leadbeater',
+      travelerType: 'relaxer'
+    }
+    user = new User(sampleUser);
+    traveler = new Traveler(user);
   });
 
   it('should be a function', function() {
@@ -26,16 +28,16 @@ describe('Traveler', function() {
     expect(traveler).to.be.an.instanceof(Traveler);
   });
 
-  it('should instantiate without an id', function() {
-    expect(traveler.id).to.eq(null);
+  it('should instantiate with an id', function() {
+    expect(traveler.id).to.eq(1);
   });
 
   it('should instantiate without a name', function() {
-    expect(traveler.name).to.eq(null);
+    expect(traveler.name).to.eq('Ham Leadbeater');
   });
 
   it('should instantiate without a traveler type', function() {
-    expect(traveler.travelerType).to.eq(null);
+    expect(traveler.travelerType).to.eq('relaxer');
   });
 
   it('should instantiate without trips', function() {
@@ -45,33 +47,33 @@ describe('Traveler', function() {
   it('should instantiate without money spent', function() {
     expect(traveler.amountSpent).to.eq(0);
   });
-
-  describe('logging in', function() {
-    it('should be able to log in', function() {
-      expect(traveler.logIn('traveler1', 'travel2020', travelerData)).to.eq('success');
-    });
-
-    it('should not be able to log in with an incorrect username', function() {
-      expect(traveler.logIn('travel1', 'travel2020', travelerData)).to.eq('Incorrect username or password. Please try again.');
-    });
-
-    it('should not be able to log in with an incorrect password', function() {
-      expect(traveler.logIn('traveler1', 'travel2021', travelerData)).to.eq('Incorrect username or password. Please try again.');
-    });
-
-    it('should have an ID after logging in', function() {
-      traveler.logIn('traveler1', 'travel2020', travelerData)
-      expect(traveler.id).to.eq(1);
-    });
-
-    it('should initialize without a name', function() {
-      traveler.logIn('traveler1', 'travel2020', travelerData)
-      expect(traveler.name).to.eq('Ham Leadbeater');
-    });
-
-    it('should initialize without a traveler type', function() {
-      traveler.logIn('traveler1', 'travel2020', travelerData)
-      expect(traveler.travelerType).to.eq('relaxer');
-    });
-  });
+  //
+  // describe('logging in', function() {
+  //   it('should be able to log in', function() {
+  //     expect(traveler.logIn('traveler1', 'travel2020', travelerData)).to.eq('success');
+  //   });
+  //
+  //   it('should not be able to log in with an incorrect username', function() {
+  //     expect(traveler.logIn('travel1', 'travel2020', travelerData)).to.eq('Incorrect username or password. Please try again.');
+  //   });
+  //
+  //   it('should not be able to log in with an incorrect password', function() {
+  //     expect(traveler.logIn('traveler1', 'travel2021', travelerData)).to.eq('Incorrect username or password. Please try again.');
+  //   });
+  //
+  //   it('should have an ID after logging in', function() {
+  //     traveler.logIn('traveler1', 'travel2020', travelerData)
+  //     expect(traveler.id).to.eq(1);
+  //   });
+  //
+  //   it('should initialize without a name', function() {
+  //     traveler.logIn('traveler1', 'travel2020', travelerData)
+  //     expect(traveler.name).to.eq('Ham Leadbeater');
+  //   });
+  //
+  //   it('should initialize without a traveler type', function() {
+  //     traveler.logIn('traveler1', 'travel2020', travelerData)
+  //     expect(traveler.travelerType).to.eq('relaxer');
+  //   });
+  // });
 });
