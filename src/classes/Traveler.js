@@ -1,39 +1,33 @@
-class Traveler {
-  constructor() {
-    this.id = null;
-    this.name = null;
-    this.travelerType = null;
+import User from '../classes/User';
+
+class Traveler extends User {
+  constructor(user) {
+    super(user)
     this.myTrips = [];
     this.amountSpent = 0;
   }
 
-  logIn(username, password, userData) {
-    let valid = true;
-    let regex = /traveler(?:[1-9]|[1-4][0-9]|50)$/
-    const validPassword = 'travel2020';
-    if (regex.test(username) && password === validPassword) {
-      this.id = parseInt(username.slice(8));
-      const matchedTraveler = userData.find(user => user.id === this.id);
-      this.name = matchedTraveler.name;
-      this.travelerType = matchedTraveler.travelerType;
-      return 'success'
-    } else if (username === 'agency' && password === validPassword) {
-      this.id = 0;
-      this.name = 'Agent Lopez';
-      this.travelerType = 'manager';
-      return 'success'
-    } else {
-      return 'Incorrect username or password. Please try again.'
+  requestTrip(destinationID, numTravelers, date, duration) {
+    const dateStamp = Date.now();
+    const newTrip = {
+      id: dateStamp,
+      userID: this.id,
+      destinationId: destinationID,
+      travelers: numTravelers,
+      // <string 'YYYY/MM/DD'>
+      date: date,
+      duration: duration,
+      status: 'pending',
+      suggestedActivities: <array of strings>
     }
-  }
-
-  requestTrip() {
-
+    this.myTrips.push(newTrip);
   }
 
   chargeTrip() {
-    
+
   }
+
+  
 }
 
 export default Traveler;
