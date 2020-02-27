@@ -1,14 +1,97 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: pink;
+$primary-color: #92DEB1; //teal
+$secondary-color: #FD8560; //peach
+$primary-font-color: #775336; //brown
+$secondary-font-color: #FEDB64; //yellow
 
-body {
-  background-color: $primary-background;
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
+@mixin font-border-outline($fill, $border) {
+  -webkit-text-fill-color: $fill;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: $border;
+}
+
+// LAYOUT
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: $primary-color;
+}
+
+.login-screen {
+  @include flex-center();
+  height: 100%;
+}
+
+
 .background-circle {
+  @include flex-center();
+  text-align: center;
   border-radius: 100%;
   background-image: url('../images/travel-background.png');
-  width: 30em;
-  height: 30em;
+  width: 33em;
+  height: 33em;
   background-size: cover;
+}
+
+form {
+  @include flex-center();
+  background-color: $secondary-font-color;
+  border-radius: 100%;
+  width: 40%;
+  height: 40%;
+  padding: 25px;
+  .text {
+    @include font-border-outline($primary-font-color, $secondary-color);
+    font-size: 1.2em;
+  }
+}
+
+h1 {
+  @include font-border-outline($primary-font-color, $secondary-font-color);
+  font-size: 3em;
+}
+
+label,
+input {
+  text-align: center;
+  margin: 5px;
+  display: block;
+  width: 100%;
+}
+
+input {
+  border: none;
+  background-color: transparentize($primary-color, 0.5);
+  padding: 2px;
+  margin: 5px;
+}
+
+.btn {
+  margin: 5px;
+  color: $primary-font-color;
+  border-radius: 100%;
+  width: 3em;
+  height: 3em;
+  background-color: $secondary-color;
+  border: 1px solid $primary-font-color;
+}
+
+.hidden {
+  display: none;
 }
