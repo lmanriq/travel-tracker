@@ -4,19 +4,22 @@
   <head>
     <meta charset="utf-8">
     <title>wanderful</title>
+    <link rel="icon"
+      href="./images/plane-icon.svg"/>
   </head>
   <body>
     <section class="login-screen">
+      <h1 class="text login-header">welcome to wanderful</h1>
       <div class="background-circle">
         <i class="fas fa-plane"></i>
-        <h1>welcome to wanderful</h1>
         <form class="login-form">
-          <h2>start wandering</h2>
-          <label for="username-input">username</label>
+          <h2 class="text">start wandering</h2>
+          <label class="text" for="username-input">username</label>
           <input id="username-input" type="text" name="username" placeholder="username">
-          <label for="password-input">password</label>
+          <label class="text" for="password-input">password</label>
           <input id="password-input" type="text" name="password" placeholder="password">
-          <p id="incorrect-login-alert"></p>
+          <button id="login-btn" class="btn btn--login"type="button" name="login-button">login</button>
+          <p class="text" id="incorrect-login-alert"></p>
         </form>
       </div>
     </section>
@@ -73,7 +76,7 @@
 
 
 
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
+    <!-- <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px"> -->
 
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
   </body>
