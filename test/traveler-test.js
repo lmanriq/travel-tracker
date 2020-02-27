@@ -14,6 +14,10 @@ describe('Traveler', function() {
   let user;
 
   beforeEach(function() {
+    global.window = {};
+    global.localStorage = {};
+    chai.spy.on(window, 'fetch', () => new Promise((resolve, reject) => {}));
+    chai.spy.on(localStorage, ['getItem', 'setItem'], () => {});
     travelerData = sampleTravelers.travelers;
     const sampleUser = {
       id: 1,
@@ -22,10 +26,6 @@ describe('Traveler', function() {
     }
     user = new User(sampleUser);
     traveler = new Traveler(user);
-    global.window;
-    global.localStorage;
-    chai.spy.on(window, 'fetch', () => new Promise((resolve, reject) => {}));
-    chai.spy.on(localStorage, ['getItem', 'setItem'], () => {});
   });
 
   afterEach(function() {
@@ -36,7 +36,7 @@ describe('Traveler', function() {
     expect(Traveler).to.be.a('function');
   });
 
-  it('should be an instance of User', function() {
+  it('should be an instance of Traveler', function() {
     expect(traveler).to.be.an.instanceof(Traveler);
   });
 
@@ -44,15 +44,15 @@ describe('Traveler', function() {
     expect(traveler.id).to.eq(1);
   });
 
-  it('should instantiate without a name', function() {
+  it('should instantiate with a name', function() {
     expect(traveler.name).to.eq('Ham Leadbeater');
   });
 
-  it('should instantiate without a traveler type', function() {
+  it('should instantiate with a traveler type', function() {
     expect(traveler.travelerType).to.eq('relaxer');
   });
 
-  it('should instantiate without trips', function() {
+  it('should instantiate without trips if none are saved', function() {
     expect(traveler.myTrips).to.deep.eq([]);
   });
 
@@ -61,7 +61,14 @@ describe('Traveler', function() {
 
     beforeEach(function() {
       traveler.requestTrip(2, 5, '2021/12/15', 5);
-      newTrip = new Trip (traveler.id, 2, 5, '2021/12/15', 5);
+      let myTrip = {
+        userID: traveler.id,
+        destinationID: 2,
+        travelers: 5,
+        date: '2021/12/15',
+        duration: 5
+      }
+      newTrip = new Trip(myTrip);
     });
 
     it('should send trip requests to the server', function() {
@@ -77,7 +84,7 @@ describe('Traveler', function() {
 
     it('should save its trips to local storage', function() {
       expect(localStorage.setItem).to.be.called(1);
-      expect(localStorage.setItem).to.be.called.with('myTrips', JSON.stringify(newTrip));
+      expect(localStorage.setItem).to.be.called.with('myTrips', JSON.stringify(traveler.myTrips));
     });
   });
 });
