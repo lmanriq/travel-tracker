@@ -7,16 +7,18 @@
   </head>
   <body>
     <section class="login-screen">
-      <i class="fas fa-plane"></i>
-      <h1>welcome to wanderful</h1>
-      <form class="login-form">
-        <h2>get wandering</h2>
-        <label for="username-input">username</label>
-        <input id="username-input" type="text" name="username" placeholder="username">
-        <label for="password-input">password</label>
-        <input id="username-input" type="text" name="username" placeholder="username">
-        <p id="incorrect-login-alert"></p>
-      </form>
+      <div class="background-circle">
+        <i class="fas fa-plane"></i>
+        <h1>welcome to wanderful</h1>
+        <form class="login-form">
+          <h2>start wandering</h2>
+          <label for="username-input">username</label>
+          <input id="username-input" type="text" name="username" placeholder="username">
+          <label for="password-input">password</label>
+          <input id="password-input" type="text" name="password" placeholder="password">
+          <p id="incorrect-login-alert"></p>
+        </form>
+      </div>
     </section>
     <section class="user-dashboard hidden">
       <header>
@@ -25,11 +27,11 @@
           <h1>wanderful</h1>
         </div>
         <div class="welcome-banner">
-          <h2>Welcome, <span id="username-span"></span></h1>
+          <h2>welcome, <span id="username-span"></span></h1>
         </div>
         <div class="spendings-box">
           <i class="fas fa-usd-circle"></i>
-          <h2>Amount Spent to Date</h2>
+          <h2>amount spent to date</h2>
           <h2>$<span id="amount-spent">500</span></h2>
         </div>
       </header>
@@ -50,11 +52,11 @@
           <h1>wanderful</h1>
         </div>
         <div class="welcome-banner">
-          <h2>Welcome, <span id="username-span"></span></h1>
+          <h2>welcome, <span id="username-span"></span></h1>
         </div>
         <div class="spendings-box">
           <i class="fas fa-usd-circle"></i>
-          <h2>Total Revenue</h2>
+          <h2>total revenue</h2>
           <p>$<span id="total-revenue">500</span></p>
         </div>
       </header>
