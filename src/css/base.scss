@@ -4,3 +4,11 @@ $primary-background: pink;
 body {
   background-color: $primary-background;
 }
+
+.background-circle {
+  border-radius: 100%;
+  background-image: url('../images/travel-background.png');
+  width: 30em;
+  height: 30em;
+  background-size: cover;
+}
