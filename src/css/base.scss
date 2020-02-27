@@ -60,6 +60,10 @@ form {
     @include font-border-outline($primary-font-color, $secondary-color);
     font-size: 1.2em;
   }
+  .alert {
+    color: $primary-font-color;
+    font-size: 0.8em;
+  }
 }
 
 h1 {
