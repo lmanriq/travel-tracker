@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
-// import spies from 'chai-spies';
-import sampleTravelers from '../src/sample-data/sample-traveler-data';
+import spies from 'chai-spies';
 import sampleTrips from '../src/sample-data/sample-trip-data';
+import sampleDestinations from '../src/sample-data/sample-destination-data';
 import { BASE, TRIPS_ENDPOINT } from '../src/constants/constants';
 import User from '../src/classes/User';
 import Trip from '../src/classes/Trip';
@@ -11,9 +11,13 @@ describe('Trip', function() {
   let tripData;
   let trip;
   let newTrip;
+  let destinationData;
 
   beforeEach(function() {
+    global.window = {};
+    chai.spy.on(window, 'fetch', () => new Promise((resolve, reject) => {}));
     tripData = sampleTrips.trips;
+    destinationData = sampleDestinations.destinations;
     trip = new Trip(tripData[0])
     let myTrip = {
       userID: 1,
@@ -23,6 +27,10 @@ describe('Trip', function() {
       duration: 5
     }
     newTrip = new Trip(myTrip)
+  });
+
+  afterEach(function() {
+    chai.spy.restore();
   });
 
   it('should be a function', function() {
@@ -75,5 +83,37 @@ describe('Trip', function() {
 
   it('should instantiate with an empty array of suggested activities by default', function() {
     expect(newTrip.suggestedActivities).to.deep.eq([]);
+  });
+
+  it('should be able to get details about a destination', function() {
+    expect(trip.getDestinationDetails(destinationData)).to.deep.eq({
+      id: 49,
+      destination: 'Castries, St Lucia',
+      estimatedLodgingCostPerDay: 650,
+      estimatedFlightCostPerPerson: 90,
+      image: 'https://images.unsplash.com/photo-1524478075552-c2763ea171b8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80',
+      alt: 'aerial photography of rocky mountain under cloudy sky'
+    });
+  });
+
+  it('should be able to provide an estimated cost breakdown', function() {
+    expect(trip.calculateCostBreakdown(destinationData)).to.deep.eq({
+      flightCost: 90,
+      lodgingCost: 5200,
+      serviceFee: 529,
+      totalCost: 5819
+    });
+  });
+
+  it('should be able to delete itself', function() {
+    trip.delete();
+    expect(window.fetch).to.be.called(1);
+    expect(window.fetch).to.be.called.with(BASE + TRIPS_ENDPOINT, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id: trip.id})
+    });
   });
 });
