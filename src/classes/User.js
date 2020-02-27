@@ -1,3 +1,5 @@
+import { BASE, TRAVELER_ENDPOINT } from '../constants/constants';
+
 class User {
   constructor(user) {
     this.id = user ? user.id : null;
@@ -11,7 +13,7 @@ class User {
     const validPassword = 'travel2020';
     if (regex.test(username) && password === validPassword) {
       this.id = parseInt(username.slice(8));
-      window.fetch(`https://fe-apps.herokuapp.com/api/v1/travel-tracker/1911/travelers/travelers/${this.id}`)
+      window.fetch(BASE + TRAVELER_ENDPOINT + this.id)
         .then(response => response.json())
         .then(data => {
           this.id = data.id;
