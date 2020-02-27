@@ -1,10 +1,13 @@
-import { BASE, TRIPS_ENDPOINT } from '../constants/constants';
+// import { BASE, TRIPS_ENDPOINT } from '../constants/constants';
 
-import User from '../classes/User';
+import User from './User';
 
 class Traveler extends User {
   constructor(user) {
-    super(user)
+    super(user);
+    // this.id = user ? user.id : null;
+    // this.name = user ? user.name : null;
+    // this.travelerType = user ? user.travelerType : null;
     this.myTrips = localStorage.getItem('myTrips')
       ? JSON.parse(localStorage.getItem('myTrips'))
       : [];
