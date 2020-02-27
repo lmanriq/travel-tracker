@@ -3,13 +3,13 @@ import Traveler from './classes/Traveler';
 import TravelAgency from './classes/TravelAgency';
 import { BASE, TRAVELER_ENDPOINT } from './constants/constants';
 import {
-  getUserInfo
+  findUser
 } from './index';
 
 
 const dom = {
   bindLoginButton(state) {
-    $('.btn--login').on('click', null, state, getUserInfo)
+    $('.btn--login').on('click', null, state, findUser)
   },
 
   bindEvents(state) {
