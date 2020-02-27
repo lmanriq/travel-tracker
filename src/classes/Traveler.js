@@ -1,6 +1,7 @@
-// import { BASE, TRIPS_ENDPOINT } from '../constants/constants';
+import { BASE, TRIPS_ENDPOINT } from '../constants/constants';
 
 import User from './User';
+import Trip from './Trip';
 
 class Traveler extends User {
   constructor(user) {
@@ -13,11 +14,18 @@ class Traveler extends User {
       : [];
   }
 
-  requestTrip(destinationID, numTravelers, date, duration) {
+  requestTrip(destinationID, travelers, date, duration) {
     const dateStamp = Date.now();
-    const newTrip = new Trip(this.id, destinationID, numTravelers, date, duration);
+    const myTrip = {
+      userID: this.id,
+      destinationID,
+      travelers,
+      date,
+      duration
+    }
+    const newTrip = new Trip(myTrip);
     this.myTrips.push(newTrip);
-    localStroage.setItem('myTrips', JSON.stringify(this.myTrips));
+    localStorage.setItem('myTrips', JSON.stringify(this.myTrips));
     window
       .fetch(BASE + TRIPS_ENDPOINT, {
         method: 'POST',

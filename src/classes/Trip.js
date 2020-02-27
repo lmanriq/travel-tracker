@@ -1,14 +1,14 @@
 class Trip {
-  constructor(userID, destinationID, numTravelers, date, duration) {
-    this.id = Date.now();
-    this.userID = userID;
-    this.destinationID = destinationID;
-    this.travelers = numTravelers;
+  constructor(trip) {
+    this.id = trip.id || Date.now();
+    this.userID = trip.userID;
+    this.destinationID = trip.destinationID;
+    this.travelers = trip.travelers;
     // <string 'YYYY/MM/DD'>
-    this.date = date;
-    this.duration = duration;
-    this.status = 'pending';
-    this.suggestedActivities = []
+    this.date = trip.date;
+    this.duration = trip.duration;
+    this.status = trip.status || 'pending';
+    this.suggestedActivities = trip.suggestedActivities || []
   }
 
   getDestinationDetails(destinationData) {
