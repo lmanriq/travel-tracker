@@ -1,10 +1,75 @@
 <!DOCTYPE html>
-<html lang="en-US">
+</html>
+<html lang="en-US" dir="ltr">
   <head>
-    <title>Webpack Starter Kit</title>
+    <meta charset="utf-8">
+    <title>wanderful</title>
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
+    <section class="login-screen">
+      <i class="fas fa-plane"></i>
+      <h1>welcome to wanderful</h1>
+      <form class="login-form">
+        <h2>get wandering</h2>
+        <label for="username-input">username</label>
+        <input id="username-input" type="text" name="username" placeholder="username">
+        <label for="password-input">password</label>
+        <input id="username-input" type="text" name="username" placeholder="username">
+        <p id="incorrect-login-alert"></p>
+      </form>
+    </section>
+    <section class="user-dashboard hidden">
+      <header>
+        <div class="logo-box">
+          <i class="fas fa-plane"></i>
+          <h1>wanderful</h1>
+        </div>
+        <div class="welcome-banner">
+          <h2>Welcome, <span id="username-span"></span></h1>
+        </div>
+        <div class="spendings-box">
+          <i class="fas fa-usd-circle"></i>
+          <h2>Amount Spent to Date</h2>
+          <h2>$<span id="amount-spent">500</span></h2>
+        </div>
+      </header>
+      <article class="top my-trips-article">
+        <!-- Want to add carousel with flickidy later -->
+      </article>
+      <article class="bottom browse-destinations-article">
+
+      </article>
+      <article class="right new-trip-article">
+
+      </article>
+    </section>
+    <section class="agent-dashboard hidden">
+      <header>
+        <div class="logo-box">
+          <i class="fas fa-plane"></i>
+          <h1>wanderful</h1>
+        </div>
+        <div class="welcome-banner">
+          <h2>Welcome, <span id="username-span"></span></h1>
+        </div>
+        <div class="spendings-box">
+          <i class="fas fa-usd-circle"></i>
+          <h2>Total Revenue</h2>
+          <p>$<span id="total-revenue">500</span></p>
+        </div>
+      </header>
+      <article class="top new-trips-article">
+        <!-- Want to add carousel with flickidy later -->
+      </article>
+      <article class="bottom search-users-article">
+
+      </article>
+      <article class="right todays-travelers-article">
+
+      </article>
+    </section>
+
+
 
     <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
 
