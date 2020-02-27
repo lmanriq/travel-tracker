@@ -1,3 +1,5 @@
+import { BASE, TRIPS_ENDPOINT } from '../constants/constants';
+
 class Trip {
   constructor(trip) {
     this.id = trip.id || Date.now();
@@ -30,11 +32,23 @@ class Trip {
   }
 
   delete() {
-
-  }
-
-  sortByStatus() {
-
+    window
+      .fetch(BASE + TRIPS_ENDPOINT, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: this.id})
+      })
+      .then(response => {
+        console.log(response.status)
+        return response.json()
+      })
+      .then(data => data)
+      .catch(error => {
+        throw error
+      }
+    )
   }
 }
 
