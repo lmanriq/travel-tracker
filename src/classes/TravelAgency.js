@@ -1,4 +1,4 @@
-import User from './User';
+import User from '../classes/User';
 
 class TravelAgency extends User {
   constructor(user) {
