@@ -34,7 +34,10 @@ class Traveler extends User {
         },
         body: JSON.stringify(newTrip)
       })
-      .then(response => response.json())
+      .then(response => {
+        console.log(response.status)
+        return response.json()
+      })
       .then(data => data)
       .catch(error => {
         throw error
