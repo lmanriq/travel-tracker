@@ -8,7 +8,7 @@ class Trip {
     this.date = date;
     this.duration = duration;
     this.status = 'pending';
-    this.suggestedActivities: []
+    this.suggestedActivities = []
   }
 
   getDestinationDetails(destinationData) {
