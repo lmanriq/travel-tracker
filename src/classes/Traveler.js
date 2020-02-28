@@ -23,6 +23,25 @@ class Traveler extends User {
     return pastTrips;
   }
 
+  showCurrentTrips() {
+    const currentTrips = this.myTrips.filter(trip => {
+      const startDate = new Date(trip.date);
+      const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
+      const today = new Date();
+      return startDate < today && today < endDate;
+    });
+    return currentTrips;
+  }
+
+  showFutureTrips() {
+    const futureTrips = this.myTrips.filter(trip => {
+      const startDate = new Date (trip.date);
+      const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
+      return startDate > new Date();
+    });
+    return futureTrips;
+  }
+
   requestTrip(destinationID, travelers, date, duration) {
     const dateStamp = Date.now();
     const myTrip = {
