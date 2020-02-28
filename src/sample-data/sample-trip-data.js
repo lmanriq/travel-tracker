@@ -2,8 +2,8 @@ const sampleTrips = {
   "trips": [
     {
       "id": 1,
-      "userID": 44,
-      "destinationID": 49,
+      "userID": 2,
+      "destinationID": 10,
       "travelers": 1,
       "date": "2019/09/16",
       "duration": 8,
@@ -12,8 +12,8 @@ const sampleTrips = {
     },
     {
       "id": 2,
-      "userID": 35,
-      "destinationID": 25,
+      "userID": 4,
+      "destinationID": 9,
       "travelers": 5,
       "date": "2020/10/04",
       "duration": 18,
@@ -23,7 +23,7 @@ const sampleTrips = {
     {
       "id": 3,
       "userID": 3,
-      "destinationID": 22,
+      "destinationID": 8,
       "travelers": 4,
       "date": "2020/05/22",
       "duration": 17,
@@ -32,8 +32,8 @@ const sampleTrips = {
     },
     {
       "id": 4,
-      "userID": 43,
-      "destinationID": 14,
+      "userID": 6,
+      "destinationID": 4,
       "travelers": 2,
       "date": "2020/02/25",
       "duration": 10,
@@ -42,8 +42,8 @@ const sampleTrips = {
     },
     {
       "id": 5,
-      "userID": 42,
-      "destinationID": 29,
+      "userID": 5,
+      "destinationID": 3,
       "travelers": 3,
       "date": "2020/04/30",
       "duration": 18,
@@ -52,8 +52,8 @@ const sampleTrips = {
     },
     {
       "id": 6,
-      "userID": 29,
-      "destinationID": 35,
+      "userID": 7,
+      "destinationID": 2,
       "travelers": 3,
       "date": "2020/06/29",
       "duration": 9,
@@ -62,8 +62,8 @@ const sampleTrips = {
     },
     {
       "id": 7,
-      "userID": 37,
-      "destinationID": 17,
+      "userID": 8,
+      "destinationID": 1,
       "travelers": 5,
       "date": "2020/5/28",
       "duration": 20,
@@ -71,9 +71,19 @@ const sampleTrips = {
       "suggestedActivities": []
     },
     {
+      "id": 117,
+      "userID": 1,
+      "destinationID": 5,
+      "travelers": 3,
+      "date": "2021/01/09",
+      "duration": 15,
+      "status": "approved",
+      "suggestedActivities": []
+    },
+    {
       "id": 8,
-      "userID": 36,
-      "destinationID": 39,
+      "userID": 9,
+      "destinationID": 6,
       "travelers": 6,
       "date": "2021/02/07",
       "duration": 4,
@@ -83,7 +93,7 @@ const sampleTrips = {
     {
       "id": 9,
       "userID": 24,
-      "destinationID": 19,
+      "destinationID": 7,
       "travelers": 5,
       "date": "2019/12/19",
       "duration": 19,
@@ -93,7 +103,7 @@ const sampleTrips = {
     {
       "id": 10,
       "userID": 9,
-      "destinationID": 50,
+      "destinationID": 8,
       "travelers": 6,
       "date": "2020/07/23",
       "duration": 17,
@@ -102,8 +112,8 @@ const sampleTrips = {
     },
     {
       "id": 11,
-      "userID": 50,
-      "destinationID": 5,
+      "userID": 10,
+      "destinationID": 9,
       "travelers": 4,
       "date": "2020/10/14",
       "duration": 4,
@@ -113,7 +123,7 @@ const sampleTrips = {
     {
       "id": 12,
       "userID": 33,
-      "destinationID": 33,
+      "destinationID": 10,
       "travelers": 6,
       "date": "2020/10/17",
       "duration": 6,
@@ -123,7 +133,7 @@ const sampleTrips = {
     {
       "id": 13,
       "userID": 14,
-      "destinationID": 12,
+      "destinationID": 28,
       "travelers": 1,
       "date": "2021/02/12",
       "duration": 11,
@@ -133,7 +143,7 @@ const sampleTrips = {
     {
       "id": 14,
       "userID": 19,
-      "destinationID": 35,
+      "destinationID": 49,
       "travelers": 1,
       "date": "2020/09/24",
       "duration": 10,
@@ -143,7 +153,7 @@ const sampleTrips = {
     {
       "id": 15,
       "userID": 50,
-      "destinationID": 13,
+      "destinationID": 10,
       "travelers": 3,
       "date": "2020/07/04",
       "duration": 6,
