@@ -1,4 +1,6 @@
 import { BASE, TRAVELER_ENDPOINT } from '../constants/constants';
+import moment from 'moment';
+moment().format();
 
 class User {
   constructor(user) {
@@ -22,6 +24,34 @@ class User {
     } else {
       return 'Incorrect username or password. Please try again.'
     }
+  }
+
+  showPastTrips(trips) {
+    const pastTrips = trips.filter(trip => {
+      const startDate = new Date (trip.date);
+      const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
+      return endDate < new Date();
+    });
+    return pastTrips;
+  }
+
+  showCurrentTrips(trips) {
+    const currentTrips = trips.filter(trip => {
+      const startDate = new Date(trip.date);
+      const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
+      const today = new Date();
+      return startDate < today && today < endDate;
+    });
+    return currentTrips;
+  }
+
+  showFutureTrips(trips) {
+    const futureTrips = trips.filter(trip => {
+      const startDate = new Date (trip.date);
+      const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
+      return startDate > new Date();
+    });
+    return futureTrips;
   }
 }
 

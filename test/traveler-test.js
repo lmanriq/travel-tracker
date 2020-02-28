@@ -7,6 +7,8 @@ import { BASE, TRIPS_ENDPOINT } from '../src/constants/constants';
 import User from '../src/classes/User';
 import Traveler from '../src/classes/Traveler';
 import Trip from '../src/classes/Trip';
+import moment from 'moment';
+moment().format();
 
 chai.use(spies);
 
@@ -59,16 +61,38 @@ describe('Traveler', function() {
   });
 
   it('should instantiate with its trips', function() {
-    expect(traveler.myTrips).to.deep.eq([{
-      "id": 117,
-      "userID": 1,
-      "destinationID": 5,
-      "travelers": 3,
-      "date": "2021/01/09",
-      "duration": 15,
-      "status": "approved",
-      "suggestedActivities": []
-    }]);
+    expect(traveler.myTrips).to.deep.eq([
+      {
+        id: 117,
+        userID: 1,
+        destinationID: 5,
+        travelers: 3,
+        date: '2021/01/09',
+        duration: 15,
+        status: 'approved',
+        suggestedActivities: []
+      },
+      {
+        id: 120,
+        userID: 1,
+        destinationID: 3,
+        travelers: 2,
+        date: '2019/01/09',
+        duration: 5,
+        status: 'approved',
+        suggestedActivities: []
+      },
+      {
+        id: 121,
+        userID: 1,
+        destinationID: 9,
+        travelers: 3,
+        date: '2020/02/27',
+        duration: 9,
+        status: 'approved',
+        suggestedActivities: []
+      }
+    ]);
   });
 
   describe('request trips', function() {
@@ -104,6 +128,6 @@ describe('Traveler', function() {
   });
 
   it('should be able to calculate the total amount spent on trips', function() {
-    expect(traveler.calculateTotalAmountSpent(destinationData)).to.eq(9570)
-  })
+    expect(traveler.calculateTotalAmountSpent(destinationData)).to.eq(19195)
+  });
 });
