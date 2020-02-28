@@ -131,48 +131,50 @@ describe('Traveler', function() {
     expect(traveler.calculateTotalAmountSpent(destinationData)).to.eq(19195)
   });
 
-  it('should be able to show its past trips', function() {
-    expect(traveler.showPastTrips()).to.deep.eq([
-      {
-        id: 120,
-        userID: 1,
-        destinationID: 3,
-        travelers: 2,
-        date: '2019/01/09',
-        duration: 5,
-        status: 'approved',
-        suggestedActivities: []
-      }
-    ]);
-  });
+  describe('sort trips', function() {
+    it('should be able to show its past trips', function() {
+      expect(traveler.showPastTrips()).to.deep.eq([
+        {
+          id: 120,
+          userID: 1,
+          destinationID: 3,
+          travelers: 2,
+          date: '2019/01/09',
+          duration: 5,
+          status: 'approved',
+          suggestedActivities: []
+        }
+      ]);
+    });
 
-  it('should be able to show its current trips', function() {
-    expect(traveler.showCurrentTrips()).to.deep.eq([
-      {
-        id: 121,
-        userID: 1,
-        destinationID: 9,
-        travelers: 3,
-        date: '2020/02/27',
-        duration: 9,
-        status: 'approved',
-        suggestedActivities: []
-      }
-    ]);
-  });
+    it('should be able to show its current trips', function() {
+      expect(traveler.showCurrentTrips()).to.deep.eq([
+        {
+          id: 121,
+          userID: 1,
+          destinationID: 9,
+          travelers: 3,
+          date: '2020/02/27',
+          duration: 9,
+          status: 'approved',
+          suggestedActivities: []
+        }
+      ]);
+    });
 
-  it('should be able to show its future trips', function() {
-    expect(traveler.showFutureTrips()).to.deep.eq([
-      {
-        id: 117,
-        userID: 1,
-        destinationID: 5,
-        travelers: 3,
-        date: '2021/01/09',
-        duration: 15,
-        status: 'approved',
-        suggestedActivities: []
-      }
-    ]);
-  });
+    it('should be able to show its future trips', function() {
+      expect(traveler.showFutureTrips()).to.deep.eq([
+        {
+          id: 117,
+          userID: 1,
+          destinationID: 5,
+          travelers: 3,
+          date: '2021/01/09',
+          duration: 15,
+          status: 'approved',
+          suggestedActivities: []
+        }
+      ]);
+    });
+  })
 });
