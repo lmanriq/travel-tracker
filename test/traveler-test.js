@@ -133,7 +133,7 @@ describe('Traveler', function() {
 
   describe('sort trips', function() {
     it('should be able to show its past trips', function() {
-      expect(traveler.showPastTrips()).to.deep.eq([
+      expect(traveler.showPastTrips(traveler.myTrips)).to.deep.eq([
         {
           id: 120,
           userID: 1,
@@ -148,7 +148,7 @@ describe('Traveler', function() {
     });
 
     it('should be able to show its current trips', function() {
-      expect(traveler.showCurrentTrips()).to.deep.eq([
+      expect(traveler.showCurrentTrips(traveler.myTrips)).to.deep.eq([
         {
           id: 121,
           userID: 1,
@@ -163,7 +163,7 @@ describe('Traveler', function() {
     });
 
     it('should be able to show its future trips', function() {
-      expect(traveler.showFutureTrips()).to.deep.eq([
+      expect(traveler.showFutureTrips(traveler.myTrips)).to.deep.eq([
         {
           id: 117,
           userID: 1,

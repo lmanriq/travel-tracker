@@ -14,8 +14,8 @@ class Traveler extends User {
     this.myTrips = tripData.filter(trip => trip.userID === this.id);
   }
 
-  showPastTrips() {
-    const pastTrips = this.myTrips.filter(trip => {
+  showPastTrips(trips) {
+    const pastTrips = trips.filter(trip => {
       const startDate = new Date (trip.date);
       const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
       return endDate < new Date();
@@ -23,8 +23,8 @@ class Traveler extends User {
     return pastTrips;
   }
 
-  showCurrentTrips() {
-    const currentTrips = this.myTrips.filter(trip => {
+  showCurrentTrips(trips) {
+    const currentTrips = trips.filter(trip => {
       const startDate = new Date(trip.date);
       const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
       const today = new Date();
@@ -33,8 +33,8 @@ class Traveler extends User {
     return currentTrips;
   }
 
-  showFutureTrips() {
-    const futureTrips = this.myTrips.filter(trip => {
+  showFutureTrips(trips) {
+    const futureTrips = trips.filter(trip => {
       const startDate = new Date (trip.date);
       const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
       return startDate > new Date();
