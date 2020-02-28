@@ -4,14 +4,12 @@ import User from './User';
 import Trip from './Trip';
 
 class Traveler extends User {
-  constructor(user) {
+  constructor(user, tripData) {
     super(user);
     // this.id = user ? user.id : null;
     // this.name = user ? user.name : null;
     // this.travelerType = user ? user.travelerType : null;
-    this.myTrips = localStorage.getItem('myTrips')
-      ? JSON.parse(localStorage.getItem('myTrips'))
-      : [];
+    this.myTrips = tripData.filter(trip => trip.userID === this.id);
   }
 
   requestTrip(destinationID, travelers, date, duration) {
@@ -25,7 +23,7 @@ class Traveler extends User {
     }
     const newTrip = new Trip(myTrip);
     this.myTrips.push(newTrip);
-    localStorage.setItem('myTrips', JSON.stringify(this.myTrips));
+    // localStorage.setItem('myTrips', JSON.stringify(this.myTrips));
     window
       .fetch(BASE + TRIPS_ENDPOINT, {
         method: 'POST',
@@ -48,6 +46,7 @@ class Traveler extends User {
   calculateTotalAmountSpent(destinationData) {
     const approvedTrips = this.myTrips.filter(trip => trip.status === 'approved');
     const totalSpent = approvedTrips.reduce((cost, trip) => {
+      trip = new Trip(trip);
       return cost + trip.calculateCostBreakdown(destinationData).totalCost;
     }, 0)
     return totalSpent;
