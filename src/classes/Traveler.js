@@ -12,6 +12,8 @@ class Traveler extends User {
     this.myTrips = tripData.filter(trip => trip.userID === this.id);
   }
 
+  
+
   requestTrip(destinationID, travelers, date, duration) {
     const dateStamp = Date.now();
     const myTrip = {

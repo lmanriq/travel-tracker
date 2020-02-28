@@ -16,12 +16,27 @@ const dom = {
     // $('.btn--login').on('click', null, state, dom.loginUser)
   },
 
+  displayTrips(trips, state) {
+    const tripImgs = trips.map(trip => {
+      const destination = state.destinations.find(destination => destination.id === trip.destinationID);
+      console.log(destination)
+      const img = destination.image;
+      const altText = destination.alt;
+      const status = trip.status;
+      return `<img src="${img}" alt="${altText}" class="${status}">`
+    })
+    $('.trips-article').html(tripImgs.join(''));
+  },
+
   loadDashboard(state) {
-    $('.login-header').text(state.currentUser.name);
+    $('.login-screen').fadeOut(1500);
+    $('.traveler-dashboard').toggleClass('hidden');
+    const firstName = state.currentUser.name.split(' ')[0].toLowerCase();
+    $('#username-span').text(firstName);
   },
 
   loadLogin() {
-    $('.login-header').hide().fadeIn(3000);
+    $('.login-screen').hide().fadeIn(1500);
   },
 
   loginUser() {

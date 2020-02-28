@@ -3,6 +3,7 @@ $primary-color: #92DEB1; //teal
 $secondary-color: #FD8560; //peach
 $primary-font-color: #775336; //brown
 $secondary-font-color: #FEDB64; //yellow
+$approved-color: #C9D25C; // green
 
 @mixin flex-center() {
   display: flex;
@@ -30,23 +31,29 @@ body {
 }
 
 body {
+  overflow: hidden;
   background-color: $primary-color;
 }
+
+// LOGIN SCREEN
 
 .login-screen {
   @include flex-center();
   height: 100%;
 }
 
+.background-circle,
+.logo-box {
+  background-image: url('../images/travel-background.png');
+  background-size: cover;
+}
 
 .background-circle {
   @include flex-center();
   text-align: center;
   border-radius: 100%;
-  background-image: url('../images/travel-background.png');
   width: 33em;
   height: 33em;
-  background-size: cover;
 }
 
 form {
@@ -66,9 +73,20 @@ form {
   }
 }
 
-h1 {
+h1,
+h2,
+h3 {
   @include font-border-outline($primary-font-color, $secondary-font-color);
+  text-align: center;
+}
+
+h1,
+h2 {
   font-size: 3em;
+}
+
+h3 {
+  font-size: 1.5em;
 }
 
 label,
@@ -98,4 +116,63 @@ input {
 
 .hidden {
   display: none;
+}
+
+// DASHBOARD
+
+header {
+  @include flex-center();
+  margin: 0 25px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.logo-box {
+  @include flex-center();
+  border-radius: 100%;
+  height: 150px;
+  width: 150px;
+  align-self: flex-start;
+  margin: 35px;
+}
+
+.trips-article {
+  display: flex;
+  height: 15%;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  img {
+    height: 200px;
+    margin: 0 20px;
+  }
+  .pending {
+    border: 3px solid yellow;
+    opacity: 50%;
+  }
+  .approved {
+    border: 3px solid green;
+  }
+}
+
+// SCROLLBAR
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: $secondary-color;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+	background: $secondary-color;
 }
