@@ -50,11 +50,11 @@ describe('Trip', function() {
   });
 
   it('should instantiate with a user ID', function() {
-    expect(trip.userID).to.eq(44);
+    expect(trip.userID).to.eq(2);
   });
 
   it('should instantiate with a destinationID', function() {
-    expect(trip.destinationID).to.eq(49);
+    expect(trip.destinationID).to.eq(10);
   });
 
   it('should instantiate with a number of travelers', function() {
@@ -87,21 +87,20 @@ describe('Trip', function() {
 
   it('should be able to get details about a destination', function() {
     expect(trip.getDestinationDetails(destinationData)).to.deep.eq({
-      id: 49,
-      destination: 'Castries, St Lucia',
-      estimatedLodgingCostPerDay: 650,
-      estimatedFlightCostPerPerson: 90,
-      image: 'https://images.unsplash.com/photo-1524478075552-c2763ea171b8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80',
-      alt: 'aerial photography of rocky mountain under cloudy sky'
+      destination: "Toronto, Canada",
+      estimatedFlightCostPerPerson: 450,
+      estimatedLodgingCostPerDay: 90,
+      id: 10,
+      image: `https://images.unsplash.com/photo-1535776142635-8fa180c46af7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2756&q=80`
     });
   });
 
   it('should be able to provide an estimated cost breakdown', function() {
     expect(trip.calculateCostBreakdown(destinationData)).to.deep.eq({
-      flightCost: 90,
-      lodgingCost: 5200,
-      serviceFee: 529,
-      totalCost: 5819
+      flightCost: 450,
+      lodgingCost: 720,
+      serviceFee: 117,
+      totalCost: 1287
     });
   });
 

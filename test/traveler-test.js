@@ -1,6 +1,8 @@
 import chai, { expect } from 'chai';
 import spies from 'chai-spies';
+import sampleDestinations from '../src/sample-data/sample-destination-data';
 import sampleTravelers from '../src/sample-data/sample-traveler-data';
+import sampleTrips from '../src/sample-data/sample-trip-data';
 import { BASE, TRIPS_ENDPOINT } from '../src/constants/constants';
 import User from '../src/classes/User';
 import Traveler from '../src/classes/Traveler';
@@ -9,23 +11,27 @@ import Trip from '../src/classes/Trip';
 chai.use(spies);
 
 describe('Traveler', function() {
-  let travelerData;
   let traveler;
+  let destinationData;
+  let travelerData;
+  let tripData;
   let user;
 
   beforeEach(function() {
     global.window = {};
-    global.localStorage = {};
+    // global.localStorage = {};
     chai.spy.on(window, 'fetch', () => new Promise((resolve, reject) => {}));
-    chai.spy.on(localStorage, ['getItem', 'setItem'], () => {});
+    // chai.spy.on(localStorage, ['getItem', 'setItem'], () => {});
+    destinationData = sampleDestinations.destinations;
     travelerData = sampleTravelers.travelers;
+    tripData = sampleTrips.trips;
     const sampleUser = {
       id: 1,
       name: 'Ham Leadbeater',
       travelerType: 'relaxer'
     }
     user = new User(sampleUser);
-    traveler = new Traveler(user);
+    traveler = new Traveler(user, tripData);
   });
 
   afterEach(function() {
@@ -52,8 +58,17 @@ describe('Traveler', function() {
     expect(traveler.travelerType).to.eq('relaxer');
   });
 
-  it('should instantiate without trips if none are saved', function() {
-    expect(traveler.myTrips).to.deep.eq([]);
+  it('should instantiate with its trips', function() {
+    expect(traveler.myTrips).to.deep.eq([{
+      "id": 117,
+      "userID": 1,
+      "destinationID": 5,
+      "travelers": 3,
+      "date": "2021/01/09",
+      "duration": 15,
+      "status": "approved",
+      "suggestedActivities": []
+    }]);
   });
 
   describe('request trips', function() {
@@ -81,10 +96,14 @@ describe('Traveler', function() {
         body: JSON.stringify(newTrip)
       })
     });
+    // it('should save its trips to local storage', function() {
+    //   expect(localStorage.setItem).to.be.called(1);
+    //   expect(localStorage.setItem).to.be.called.with('myTrips', JSON.stringify(traveler.myTrips));
+    // });
 
-    it('should save its trips to local storage', function() {
-      expect(localStorage.setItem).to.be.called(1);
-      expect(localStorage.setItem).to.be.called.with('myTrips', JSON.stringify(traveler.myTrips));
-    });
   });
+
+  it('should be able to calculate the total amount spent on trips', function() {
+    expect(traveler.calculateTotalAmountSpent(destinationData)).to.eq(9570)
+  })
 });
