@@ -1,4 +1,6 @@
 import { BASE, TRIPS_ENDPOINT } from '../constants/constants';
+import moment from 'moment';
+moment().format();
 
 import User from './User';
 import Trip from './Trip';
@@ -10,6 +12,15 @@ class Traveler extends User {
     // this.name = user ? user.name : null;
     // this.travelerType = user ? user.travelerType : null;
     this.myTrips = tripData.filter(trip => trip.userID === this.id);
+  }
+
+  showPastTrips() {
+    const pastTrips = this.myTrips.filter(trip => {
+      const startDate = new Date (trip.date);
+      const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
+      return endDate < new Date();
+    });
+    return pastTrips;
   }
 
   requestTrip(destinationID, travelers, date, duration) {
