@@ -48,7 +48,6 @@ class User {
   showFutureTrips(trips) {
     const futureTrips = trips.filter(trip => {
       const startDate = new Date (trip.date);
-      const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
       return startDate > new Date();
     });
     return futureTrips;

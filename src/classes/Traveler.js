@@ -12,7 +12,7 @@ class Traveler extends User {
     this.myTrips = tripData.filter(trip => trip.userID === this.id);
   }
 
-  
+
 
   requestTrip(destinationID, travelers, date, duration) {
     const dateStamp = Date.now();
@@ -51,7 +51,7 @@ class Traveler extends User {
       trip = new Trip(trip);
       return cost + trip.calculateCostBreakdown(destinationData).totalCost;
     }, 0)
-    return totalSpent;
+    return totalSpent.toFixed(2);
   }
 }
 
