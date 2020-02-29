@@ -5,7 +5,10 @@ import { BASE, TRAVELER_ENDPOINT } from './constants/constants';
 import {
   findUser
 } from './index';
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+const moment = extendMoment(Moment);
+import datepicker from 'js-datepicker'
 moment().format();
 
 
@@ -14,14 +17,45 @@ const dom = {
     $('.btn--login').on('click', null, state, findUser)
   },
 
-  bindEvents(state) {
-    // $('.btn--login').on('click', null, state, dom.loginUser)
+  bindSubmitBtn(state) {
+    $('.btn--submit').on('click', null, state, dom.submitTripRequest)
+  },
+
+  addDatePicker() {
+    const start = datepicker('#start-date-picker', {
+      id: 1,
+      minDate: new Date()
+    })
+    const end = datepicker('#end-date-picker', {
+      id: 1,
+      minDate: new Date()
+    });
   },
 
   loadTraveler(state) {
     dom.loadDashboard(state);
     dom.displayTrips(state);
     dom.displayAmountSpentTraveler(state);
+    dom.addDatePicker();
+    dom.addDestinationOptions(state);
+    dom.bindSubmitBtn(state);
+  },
+
+  submitTripRequest(e) {
+    e.preventDefault();
+    const startDate = $('#start-date-picker').val();
+    const endDate = $('#end-date-picker').val();
+    const range = moment.range(startDate, endDate);
+    const duration = Array.from(range.by('day')).length;
+    console.log(duration)
+  },
+
+  addDestinationOptions(state) {
+    const destinationOptions = state.destinations.map(dest => {
+      return `<option value="${dest.destination}">${dest.destination}</option>`
+    })
+    const destHTML = destinationOptions.join('');
+    $('#destination-choices').html(destHTML);
   },
 
   makeTripCard(trip, destination, current) {
