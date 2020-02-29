@@ -32,9 +32,8 @@ const getUserDetails = (login) => {
     .then(data => data)
     .then(data => {
       state.currentUser = new Traveler(data, state.trips);
-      state.trips = state.currentUser.myTrips;
-      dom.loadDashboard(state);
-      dom.displayTrips(state.currentUser.myTrips, state);
+      state.trips = state.currentUser.myTrips.map(trip => new Trip(trip));
+      dom.loadTraveler(state);
     })
     .catch(error => {
       console.log(error.message)
@@ -47,9 +46,9 @@ export const findUser = (e) => {
   if (login === 0) {
     console.log(state.currentUser)
     state.currentUser = new TravelAgency(state.currentUser);
+    state.trips = state.trips.map(trip => new Trip(trip));
     dom.loadDashboard(state);
-    const allTrips = state.trips.map(trip => new Trip(trip))
-    dom.displayTrips(allTrips, state);
+    dom.displayTrips(state);
   } else if (login > 0) {
     getUserDetails(login);
   } else {
