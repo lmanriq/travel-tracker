@@ -107,16 +107,6 @@ describe('User', function() {
     it('should be able to show its current trips', function() {
       expect(user.showCurrentTrips(tripData)).to.deep.eq([
         {
-          id: 4,
-          userID: 6,
-          destinationID: 4,
-          travelers: 2,
-          date: '2020/02/25',
-          duration: 10,
-          status: 'approved',
-          suggestedActivities: []
-        },
-        {
           id: 121,
           userID: 1,
           destinationID: 9,
