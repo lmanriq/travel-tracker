@@ -31,8 +31,23 @@ body {
 }
 
 body {
-  overflow: hidden;
-  background-color: $primary-color;
+  overflow-y: scroll;
+  background-color: transparentize($primary-color, 0.5);
+}
+
+.trip {
+  @include flex-center();
+  position: relative;
+  text-align: center;
+  .trip-details {
+    @include flex-center();
+    background-color: transparentize($primary-color, 0.3);
+    position: absolute;
+    top: 10%;
+  }
+  p {
+    color: $primary-font-color;
+  }
 }
 
 // LOGIN SCREEN
@@ -136,11 +151,14 @@ header {
   margin: 35px;
 }
 
+
 .trips-article {
-  display: flex;
+  @include flex-center()
+  flex-direction: row;
   height: 15%;
   overflow-y: hidden;
   overflow-x: scroll;
+  margin: 20px;
   img {
     height: 200px;
     margin: 0 20px;
