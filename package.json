@@ -33,6 +33,8 @@
   },
   "dependencies": {
     "jquery": "^3.4.1",
-    "moment": "^2.24.0"
+    "js-datepicker": "^5.4.0",
+    "moment": "^2.24.0",
+    "moment-range": "^4.0.2"
   }
 }
