@@ -35,6 +35,25 @@ body {
   background-color: transparentize($primary-color, 0.5);
 }
 
+p,
+label {
+  color: $primary-font-color;
+  font-size: 1.2em;
+}
+
+.traveler-dashboard {
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+  'header header header'
+  'current current add'
+  'past past add';
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+// TRIP DISPLAY PHOTOS
+
 .trip {
   @include flex-center();
   position: relative;
@@ -45,9 +64,43 @@ body {
     position: absolute;
     top: 10%;
   }
-  p {
-    color: $primary-font-color;
+}
+
+.dash-header {
+  grid-area: header;
+}
+
+.current-trips-section {
+  grid-area: current;
+}
+
+.past-trips-section {
+  grid-area: past;
+}
+
+.add-trip {
+  grid-area: add;
+}
+
+.trip-selections {
+  @include flex-center();
+  background-color: transparentize($secondary-color, 0.3);
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+  .btn--submit{
+    background-color: $secondary-font-color;
   }
+  select, input {
+    width: 100%;
+  }
+  select {
+    display: block;
+  }
+}
+
+button {
+
 }
 
 // LOGIN SCREEN
@@ -71,7 +124,7 @@ body {
   height: 33em;
 }
 
-form {
+.login-form {
   @include flex-center();
   background-color: $secondary-font-color;
   border-radius: 100%;
@@ -112,7 +165,8 @@ input {
   width: 100%;
 }
 
-input {
+input,
+select {
   border: none;
   background-color: transparentize($primary-color, 0.5);
   padding: 2px;
@@ -123,8 +177,8 @@ input {
   margin: 5px;
   color: $primary-font-color;
   border-radius: 100%;
-  width: 3em;
-  height: 3em;
+  width: 4.5em;
+  height: 4.5em;
   background-color: $secondary-color;
   border: 1px solid $primary-font-color;
 }
@@ -154,6 +208,7 @@ header {
 
 .trips-article {
   @include flex-center()
+  justify-content: flex-start;
   flex-direction: row;
   height: 15%;
   overflow-y: hidden;
