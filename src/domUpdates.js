@@ -5,6 +5,8 @@ import { BASE, TRAVELER_ENDPOINT } from './constants/constants';
 import {
   findUser
 } from './index';
+import moment from 'moment';
+moment().format();
 
 
 const dom = {
@@ -16,16 +18,49 @@ const dom = {
     // $('.btn--login').on('click', null, state, dom.loginUser)
   },
 
-  displayTrips(trips, state) {
-    const tripImgs = trips.map(trip => {
+  loadTraveler(state) {
+    dom.loadDashboard(state);
+    dom.displayTrips(state);
+    dom.displayAmountSpentTraveler(state);
+  },
+
+  makeTripCard(trip, destination, current) {
+    const startDate = moment(trip.date).format('l');
+    let endDate = moment(startDate).add(trip.duration, 'days').calendar();
+    endDate = moment(endDate).format('l');
+    return `<article class='${current ? current : ''} trip'>
+      <div class='trip-details'>
+        <h3>${destination.destination}</h3>
+        <p>${startDate} - ${endDate}</p>
+      </div>
+      <img src="${destination.image}" alt="${destination.alt}" class="${trip.status}">
+    </article>`
+  },
+
+  displayAmountSpentTraveler(state) {
+    let amount = state.currentUser.calculateTotalAmountSpent(state.destinations);
+    amount = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    $('#amount-spent').text(amount)
+  },
+
+  displayTrips(state) {
+    const currentTrips = state.currentUser.showCurrentTrips(state.trips);
+    const pastTrips = state.currentUser.showPastTrips(state.trips);
+    const futureTrips = state.currentUser.showFutureTrips(state.trips);
+    const currentTripCards = currentTrips.map(trip => {
       const destination = state.destinations.find(destination => destination.id === trip.destinationID);
-      console.log(destination)
-      const img = destination.image;
-      const altText = destination.alt;
-      const status = trip.status;
-      return `<img src="${img}" alt="${altText}" class="${status}">`
+      return dom.makeTripCard(trip, destination, 'current');
     })
-    $('.trips-article').html(tripImgs.join(''));
+    const futureTripCards = futureTrips.map(trip => {
+      const destination = state.destinations.find(destination => destination.id === trip.destinationID);
+      return dom.makeTripCard(trip, destination)
+    })
+    const pastTripCards = pastTrips.map(trip => {
+      const destination = state.destinations.find(destination => destination.id === trip.destinationID);
+      return dom.makeTripCard(trip, destination)
+    })
+    $('.current-trips').html(currentTripCards.join('') + futureTripCards.join(''));
+    $('.past-trips').html(pastTripCards.join(''))
   },
 
   loadDashboard(state) {
