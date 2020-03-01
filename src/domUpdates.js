@@ -17,8 +17,26 @@ const dom = {
     $('.btn--login').on('click', null, state, findUser)
   },
 
-  bindSubmitBtn(state) {
-    $('.btn--submit').on('click', null, state, dom.submitTripRequest)
+  bindDashBtns(state) {
+    $('.btn--submit').on('click', function() {
+      dom.submitTripRequest(state);
+    });
+    $('.btn--pending').on('click', function() {
+      dom.showPendingTrips(state);
+    });
+    $('.btn--all').on('click', function() {
+      dom.displayTrips(state);
+    });
+  },
+
+  showPendingTrips(state) {
+    const user = state.currentUser;
+    const pending = user.showPendingTrips(state.trips);
+    const pendingCards = pending.map(trip => {
+      const destination = state.destinations.find(destination => destination.id === trip.destinationID);
+      return dom.makeTripCard(trip, destination);
+    })
+    $('.current-trips').html(pendingCards.join(''));
   },
 
   addDatePicker() {
@@ -38,7 +56,7 @@ const dom = {
     dom.displayAmountSpentTraveler(state);
     dom.addDatePicker();
     dom.addDestinationOptions(state);
-    dom.bindSubmitBtn(state);
+    dom.bindDashBtns(state);
   },
 
   submitTripRequest(e) {
@@ -52,10 +70,10 @@ const dom = {
       startDate = moment(startDate).format("YYYY/MM/DD");
       const travelers = $('#travelers-input').val();
       const destinationID = $('#destination-choices').find('option:selected').attr('id');
-      e.data.currentUser.requestTrip(destinationID, travelers, startDate, duration);
-      e.data.trips = e.data.currentUser.myTrips;
+      state.currentUser.requestTrip(destinationID, travelers, startDate, duration);
+      state.trips = state.currentUser.myTrips;
       $('#required').text('wander request successfully submitted').hide().fadeIn(2000).delay(1000).fadeOut(2000);
-      dom.displayTrips(e.data);
+      dom.displayTrips(state);
     } else {
       $('#required').text('all fields are required').hide().fadeIn(2000).delay(1000).fadeOut(2000);
     }
@@ -77,6 +95,7 @@ const dom = {
       <div class='trip-details'>
         <h3>${destination.destination}</h3>
         <p>${startDate} - ${endDate}</p>
+        <p>${trip.status}</p>
       </div>
       <img src="${destination.image}" alt="${destination.alt}" class="${trip.status}">
     </article>`
@@ -89,20 +108,20 @@ const dom = {
   },
 
   displayTrips(state) {
-    console.log(state);
-    const currentTrips = state.currentUser.showCurrentTrips(state.trips);
-    const pastTrips = state.currentUser.showPastTrips(state.trips);
-    const futureTrips = state.currentUser.showFutureTrips(state.trips);
+    const data = state;
+    const currentTrips = data.currentUser.showCurrentTrips(data.trips);
+    const pastTrips = data.currentUser.showPastTrips(data.trips);
+    const futureTrips = data.currentUser.showFutureTrips(data.trips);
     const currentTripCards = currentTrips.map(trip => {
-      const destination = state.destinations.find(destination => destination.id === trip.destinationID);
+      const destination = data.destinations.find(destination => destination.id === trip.destinationID);
       return dom.makeTripCard(trip, destination, 'current');
     })
     const futureTripCards = futureTrips.map(trip => {
-      const destination = state.destinations.find(destination => destination.id === trip.destinationID);
+      const destination = data.destinations.find(destination => destination.id === trip.destinationID);
       return dom.makeTripCard(trip, destination)
     })
     const pastTripCards = pastTrips.map(trip => {
-      const destination = state.destinations.find(destination => destination.id === trip.destinationID);
+      const destination = data.destinations.find(destination => destination.id === trip.destinationID);
       return dom.makeTripCard(trip, destination)
     })
     $('.current-trips').html(currentTripCards.join('') + futureTripCards.join(''));
