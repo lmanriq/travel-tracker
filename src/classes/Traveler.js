@@ -12,16 +12,19 @@ class Traveler extends User {
     this.myTrips = tripData.filter(trip => trip.userID === this.id);
   }
 
-
-
-  requestTrip(destinationID, travelers, date, duration) {
+  requestTrip(destinationId, travelers, date, duration) {
     const dateStamp = Date.now();
+    destinationId = parseInt(destinationId);
+    travelers = parseInt(travelers);
     const myTrip = {
-      userID: this.id,
-      destinationID,
+      id: dateStamp,
+      userId: this.id,
+      destinationId,
       travelers,
       date,
-      duration
+      duration,
+      status: 'pending',
+      suggestedActivities: []
     }
     const newTrip = new Trip(myTrip);
     this.myTrips.push(newTrip);
@@ -32,7 +35,7 @@ class Traveler extends User {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newTrip)
+        body: JSON.stringify(myTrip)
       })
       .then(response => {
         console.log(response.status)
