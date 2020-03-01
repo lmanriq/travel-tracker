@@ -2,6 +2,8 @@ import { BASE, TRIPS_ENDPOINT } from '../constants/constants';
 
 import User from './User';
 import Trip from './Trip';
+import moment from 'moment';
+moment().format();
 
 class Traveler extends User {
   constructor(user, tripData) {
@@ -29,7 +31,7 @@ class Traveler extends User {
     const newTrip = new Trip(myTrip);
     this.myTrips.push(newTrip);
     // localStorage.setItem('myTrips', JSON.stringify(this.myTrips));
-    window
+    return window
       .fetch(BASE + TRIPS_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -49,7 +51,9 @@ class Traveler extends User {
   }
 
   calculateTotalAmountSpent(destinationData) {
-    const approvedTrips = this.myTrips.filter(trip => trip.status === 'approved');
+    const approvedTrips = this.myTrips.filter(trip => {
+      return trip.status === 'approved' && trip.date.includes(moment().format('YYYY'));
+    });
     const totalSpent = approvedTrips.reduce((cost, trip) => {
       trip = new Trip(trip);
       return cost + trip.calculateCostBreakdown(destinationData).totalCost;
