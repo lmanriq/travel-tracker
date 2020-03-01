@@ -64,6 +64,9 @@ label {
     position: absolute;
     top: 10%;
   }
+  .current {
+    background-color: transparentize($secondary-color, 0.3);
+  }
 }
 
 .dash-header {
@@ -228,6 +231,18 @@ header {
   .approved {
     border: 3px solid green;
   }
+}
+
+// trip details
+
+.expanded-trip-details {
+  position: fixed;
+  z-index: 2;
+  height: 70%;
+  width: 70%;
+  top: 15%;
+  right: 15%;
+  background-color: $secondary-color;
 }
 
 // SCROLLBAR
