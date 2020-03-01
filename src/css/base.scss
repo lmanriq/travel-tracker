@@ -5,11 +5,11 @@ $primary-font-color: #775336; //brown
 $secondary-font-color: #FEDB64; //yellow
 $approved-color: #C9D25C; // green
 
-@mixin flex-center() {
+@mixin flex-center($direction) {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: $direction;
 }
 
 @mixin font-border-outline($fill, $border) {
@@ -55,11 +55,11 @@ label {
 // TRIP DISPLAY PHOTOS
 
 .trip {
-  @include flex-center();
+  @include flex-center(column);
   position: relative;
   text-align: center;
   .trip-details {
-    @include flex-center();
+    @include flex-center(column);
     background-color: transparentize($primary-color, 0.3);
     position: absolute;
     top: 10%;
@@ -71,7 +71,12 @@ label {
 }
 
 .current-trips-section {
+  text-align: center;
   grid-area: current;
+  .btn {
+    height: 5em;
+    width: 5em;
+  }
 }
 
 .past-trips-section {
@@ -82,8 +87,12 @@ label {
   grid-area: add;
 }
 
+.btn-container {
+  @include flex-center(row);
+}
+
 .trip-selections {
-  @include flex-center();
+  @include flex-center(column);
   background-color: transparentize($secondary-color, 0.3);
   margin: 20px;
   padding: 20px;
@@ -99,14 +108,11 @@ label {
   }
 }
 
-button {
-
-}
 
 // LOGIN SCREEN
 
 .login-screen {
-  @include flex-center();
+  @include flex-center(column);
   height: 100%;
 }
 
@@ -117,7 +123,7 @@ button {
 }
 
 .background-circle {
-  @include flex-center();
+  @include flex-center(column);
   text-align: center;
   border-radius: 100%;
   width: 33em;
@@ -125,7 +131,7 @@ button {
 }
 
 .login-form {
-  @include flex-center();
+  @include flex-center(column);
   background-color: $secondary-font-color;
   border-radius: 100%;
   width: 40%;
@@ -190,14 +196,13 @@ select {
 // DASHBOARD
 
 header {
-  @include flex-center();
+  @include flex-center(row);
   margin: 0 25px;
-  flex-direction: row;
   justify-content: space-between;
 }
 
 .logo-box {
-  @include flex-center();
+  @include flex-center(column);
   border-radius: 100%;
   height: 150px;
   width: 150px;
@@ -207,9 +212,8 @@ header {
 
 
 .trips-article {
-  @include flex-center()
+  @include flex-center(row)
   justify-content: flex-start;
-  flex-direction: row;
   height: 15%;
   overflow-y: hidden;
   overflow-x: scroll;
@@ -220,7 +224,6 @@ header {
   }
   .pending {
     border: 3px solid yellow;
-    opacity: 50%;
   }
   .approved {
     border: 3px solid green;
