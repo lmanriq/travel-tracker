@@ -51,7 +51,7 @@
       </section>
       <section class="add-trip">
         <section class="trip-selections">
-          <form class="trip-form" action="index.html" method="post">
+          <form autocomplete="off" class="trip-form" action="index.html" method="post">
             <!-- date, duration, numtravelers, destination -->
             <h2>new wandering</h2>
             <label for="start-date-picker">start date:</label>
@@ -63,6 +63,7 @@
             <label for="destinations">destinations:</label>
             <select id="destination-choices"></select>
             <button class="btn btn--submit" type="submit" name="submit">submit</button>
+            <p id="required"></p>
             <p>we will contact you when your trip has been approved</p>
           </form>
         </section>
