@@ -36,12 +36,32 @@ const dom = {
     $('.btn--all').on('click', function() {
       dom.displayTrips(state);
     });
+    $('.current-trips').on('click', '.trip', state, dom.showAgencyTravelDetails);
+    $('.expanded-trip-details').on('click', '.btn--exit', state, dom.hideTripDetails);
+    $('.expanded-trip-details').on('click', '.btn--approve', state, dom.approvePendingTrip);
+    $('.expanded-trip-details').on('click', '.btn--deny', state, dom.denyPendingTrip);
+  },
+
+  hideTripDetails(e) {
+    $('.expanded-trip-details').toggleClass('hidden');
+    dom.displayTrips(e.data);
+  },
+
+  approvePendingTrip(e) {
+    const tripID = parseInt($('.expanded-trip-details').attr('id'));
+    e.data.currentUser.approveRequest(tripID);
+    $('#success-msg').text('Trip successfully approved.')
+  },
+
+  denyPendingTrip(e) {
+    const tripID =parseInt($('.expanded-trip-details').attr('id'));
+    e.data.currentUser.denyRequest(tripID, e.data.trips);
+    $('#success-msg').text('Trip successfully denied.')
   },
 
   showCostBreakdown(e) {
     let trip = dom.grabTripDetails(e.data);
     if (trip) {
-      console.log(trip)
       trip.userId = e.data.currentUser.id;
       trip = new Trip(trip);
       const breakdown = trip.calculateCostBreakdown(e.data.destinations);
@@ -113,10 +133,10 @@ const dom = {
       const duration = Array.from(range.by('day')).length;
       startDate = moment(startDate).format("YYYY/MM/DD");
       const travelers = parseInt($('#travelers-input').val());
-      const destinationId = parseInt($('#destination-choices').find('option:selected').attr('id'));
+      const destinationID = parseInt($('#destination-choices').find('option:selected').attr('id'));
       return {
         date: startDate,
-        destinationId,
+        destinationID,
         travelers,
         duration
       }
@@ -127,9 +147,8 @@ const dom = {
     e.preventDefault();
     const trip = dom.grabTripDetails(e.data);
     if (trip) {
-      e.data.currentUser.requestTrip(trip.destinationId, trip.travelers, trip.date, trip.duration)
+      e.data.currentUser.requestTrip(trip.destinationID, trip.travelers, trip.date, trip.duration)
         .then(data => {
-          console.log(data);
           e.data.trips = e.data.currentUser.myTrips;
           dom.displayTrips(e.data)
         })
@@ -151,14 +170,41 @@ const dom = {
     const startDate = moment(trip.date).format('l');
     let endDate = moment(startDate).add(trip.duration, 'days').calendar();
     endDate = moment(endDate).format('l');
-    return `<article class='${current ? current : ''} trip'>
-      <div class='trip-details'>
+    return `<article id="${trip.id}"" class="trip">
+      <div class="${current || ''} trip-details">
         <h3>${destination.destination}</h3>
         <p>${startDate} - ${endDate}</p>
         <p>${trip.status}</p>
       </div>
       <img src="${destination.image}" alt="${destination.alt}" class="${trip.status}">
     </article>`
+  },
+
+  showAgencyTravelDetails(e) {
+    const targetID = parseInt($(this).closest('.trip').attr('id'));
+    const targetTrip = e.data.trips.find(trip => trip.id === targetID);
+    const user = e.data.travelers.find(user => user.id === targetTrip.userID);
+    const destination = e.data.destinations.find(dest => dest.id === targetTrip.destinationID);
+    const cost = targetTrip.calculateCostBreakdown(e.data.destinations);
+    const buttonHTML = `<div class="btn-container">
+        <button class="btn btn--approve" type="button" name="approve">approve</button>
+        <button class="btn btn--deny" type="button" name="deny">deny</button>
+      </div>`
+    const detailsHTML = `
+    <button class="btn btn--exit" type="button" name="exit">x</button>
+    <h2>${destination.destination.toLowerCase()}</h2>
+    <h2>${user.name.toLowerCase()}</h2>
+    <p>duration: ${targetTrip.duration}</p>
+    <p>wanderers: ${targetTrip.travelers}</p>
+    <p>status: ${targetTrip.status}</p>
+    <p>total cost: $${cost.totalCost.toFixed(2)}</p>
+    <p>agency percentage: $${cost.serviceFee.toFixed(2)}</p>
+    <p id="success-msg"></p>
+    ${targetTrip.status === 'approved' ? '' : buttonHTML}
+    `
+    $('.expanded-trip-details').toggleClass('hidden');
+    $('.expanded-trip-details').attr('id', targetID);
+    $('.expanded-trip-details').html(detailsHTML)
   },
 
   displayTotalRevenue(state) {
@@ -190,9 +236,9 @@ const dom = {
     const pastTripCards = pastTrips.map(trip => {
       const destination = state.destinations.find(destination => destination.id === trip.destinationID);
       return dom.makeTripCard(trip, destination)
-    })
+    });
     $('.current-trips').html(currentTripCards.join('') + futureTripCards.join(''));
-    $('.past-trips').html(pastTripCards.join(''))
+    $('.past-trips').html(pastTripCards.join(''));
   },
 
   loadDashboard(state) {
