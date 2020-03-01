@@ -1,0 +1,12 @@
+@mixin flex-center($direction) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+@mixin font-border-outline($fill, $border) {
+  -webkit-text-fill-color: $fill;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: $border;
+}

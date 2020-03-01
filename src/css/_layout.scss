@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow-y: scroll;
+  background-color: transparentize($primary-color, 0.5);
+}
+
+header {
+  @include flex-center(row);
+  margin: 0 25px;
+  justify-content: space-between;
+}
+
+li {
+  list-style-type: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.traveler-dashboard {
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+  'header header header'
+  'current current add'
+  'past past add';
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.btn {
+  margin: 5px;
+  color: $primary-font-color;
+  border-radius: 100%;
+  width: 5em;
+  height: 5em;
+  background-color: $secondary-color;
+  border: 1px solid $primary-font-color;
+}
+
+.btn-container {
+  @include flex-center(row);
+}

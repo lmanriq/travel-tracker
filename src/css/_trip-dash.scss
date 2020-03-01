@@ -1,0 +1,86 @@
+.logo-box {
+  @include flex-center(column);
+  border-radius: 100%;
+  height: 150px;
+  width: 150px;
+  align-self: flex-start;
+  margin: 35px;
+}
+
+.dash-header {
+  grid-area: header;
+}
+
+.trips-article {
+  @include flex-center(row)
+  justify-content: flex-start;
+  height: 15em;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  margin: 20px;
+  img {
+    height: 200px;
+    margin: 0 20px;
+  }
+  .pending {
+    border: 3px solid yellow;
+  }
+  .approved {
+    border: 3px solid green;
+  }
+}
+
+.trip {
+  @include flex-center(column);
+  position: relative;
+  text-align: center;
+  .trip-details {
+    @include flex-center(column);
+    background-color: transparentize($primary-color, 0.3);
+    position: absolute;
+    top: 10%;
+  }
+  .current {
+    background-color: transparentize($secondary-color, 0.3);
+  }
+}
+
+.current-trips-section {
+  text-align: center;
+  grid-area: current;
+  .btn {
+    height: 5em;
+    width: 5em;
+  }
+}
+
+.past-trips-section {
+  grid-area: past;
+}
+
+.add-trip {
+  grid-area: add;
+}
+
+.trip-selections {
+  @include flex-center(column);
+  background-color: transparentize($secondary-color, 0.3);
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+  .btn {
+    background-color: $secondary-font-color;
+  }
+  select, input {
+    width: 100%;
+  }
+  select {
+    display: block;
+  }
+}
+
+input,
+select {
+  height: 1.8em;
+  font-size: 1em;
+}

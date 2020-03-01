@@ -1,0 +1,35 @@
+.login-screen {
+  @include flex-center(column);
+  height: 100%;
+}
+
+.background-circle,
+.logo-box {
+  background-image: url('../images/travel-background.png');
+  background-size: cover;
+}
+
+.background-circle {
+  @include flex-center(column);
+  text-align: center;
+  border-radius: 100%;
+  width: 33em;
+  height: 33em;
+}
+
+.login-form {
+  @include flex-center(column);
+  background-color: $secondary-font-color;
+  border-radius: 100%;
+  width: 40%;
+  height: 40%;
+  padding: 25px;
+  .text {
+    @include font-border-outline($primary-font-color, $secondary-color);
+    font-size: 1.2em;
+  }
+  .alert {
+    color: $primary-font-color;
+    font-size: 0.8em;
+  }
+}

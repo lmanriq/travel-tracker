@@ -1,0 +1,39 @@
+h1,
+h2,
+h3 {
+  @include font-border-outline($primary-font-color, $secondary-font-color);
+  text-align: center;
+}
+
+h1,
+h2 {
+  font-size: 3em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+label,
+input {
+  text-align: center;
+  margin: 5px;
+  display: block;
+  width: 100%;
+}
+
+input,
+select {
+  border: none;
+  background-color: transparentize($primary-color, 0.5);
+  padding: 2px;
+  margin: 5px;
+}
+
+p,
+label,
+li {
+  color: $primary-font-color;
+  font-size: 1.2em;
+  padding: 3px;
+}
