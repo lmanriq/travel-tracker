@@ -8,7 +8,7 @@ import User from './classes/User';
 import Traveler from './classes/Traveler';
 import Trip from './classes/Trip';
 import TravelAgency from './classes/TravelAgency';
-import { BASE, TRAVELER_ENDPOINT, TRIPS_ENDPOINT, DESTINATIONS_ENDPOINT } from './constants/constants';
+import { BASE, TRAVELERS_ENDPOINT, TRIPS_ENDPOINT, DESTINATIONS_ENDPOINT } from './constants/constants';
 
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
@@ -24,7 +24,7 @@ const state = {
 
 dom.loadLogin();
 const getUserDetails = (login) => {
-  window.fetch(BASE + TRAVELER_ENDPOINT + login)
+  window.fetch(BASE + TRAVELERS_ENDPOINT + login)
     .then(response => {
       console.log(response.status)
       return response.json()
@@ -46,9 +46,8 @@ export const findUser = (e) => {
   if (login === 0) {
     console.log(state.currentUser)
     state.currentUser = new TravelAgency(state.currentUser);
-    state.trips = state.trips.map(trip => new Trip(trip));
-    dom.loadDashboard(state);
-    dom.displayTrips(state);
+    // state.trips = state.trips.map(trip => new Trip(trip));
+    dom.loadTravelAgent(state);
   } else if (login > 0) {
     getUserDetails(login);
   } else {
@@ -56,8 +55,8 @@ export const findUser = (e) => {
   }
 }
 
-const getTrips = () => {
-  return fetch(BASE + TRIPS_ENDPOINT)
+const getData = (endpoint) => {
+  return fetch(BASE + endpoint)
     .then(response => {
       console.log(response.status)
       return response.json()
@@ -67,22 +66,12 @@ const getTrips = () => {
     })
 }
 
-const getDestinations = () => {
-  return fetch(BASE + DESTINATIONS_ENDPOINT)
-    .then(response => {
-      console.log(response.status)
-      return response.json()
-    })
-    .catch(error => {
-      console.log(error.message)
-    })
-}
-
-Promise.all([getTrips(), getDestinations()])
+Promise.all([getData(TRIPS_ENDPOINT), getData(DESTINATIONS_ENDPOINT), getData(TRAVELERS_ENDPOINT)])
   .then(data => {
-    const [tripData, destinationData] = data;
+    const [tripData, destinationData, travelerData] = data;
     state.trips = tripData.trips.map(trip => new Trip(trip));
     state.destinations = destinationData.destinations;
+    state.travelers = travelerData.travelers;
   })
   .catch(error => {
     throw error;
