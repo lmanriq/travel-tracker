@@ -41,6 +41,10 @@ label {
   font-size: 1.2em;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .traveler-dashboard {
   width: 100%;
   display: grid;
@@ -192,10 +196,6 @@ select {
   border: 1px solid $primary-font-color;
 }
 
-.hidden {
-  display: none;
-}
-
 // DASHBOARD
 
 header {
@@ -236,6 +236,7 @@ header {
 // trip details
 
 .expanded-trip-details {
+  @include flex-center(column);
   position: fixed;
   z-index: 2;
   height: 70%;
@@ -243,6 +244,15 @@ header {
   top: 15%;
   right: 15%;
   background-color: $secondary-color;
+  border-radius: 10px;
+  text-align: center;
+  .btn {
+    background-color: $secondary-font-color;
+  }
+  .btn--exit {
+    align-self: flex-start;
+    margin: 0 0 0 10px;
+  }
 }
 
 // SCROLLBAR
