@@ -43,16 +43,27 @@ const dom = {
 
   submitTripRequest(e) {
     e.preventDefault();
-    const startDate = $('#start-date-picker').val();
-    const endDate = $('#end-date-picker').val();
-    const range = moment.range(startDate, endDate);
-    const duration = Array.from(range.by('day')).length;
-    console.log(duration)
+    if($('#start-date-picker').val() && $('#end-date-picker').val()
+    && $('#travelers-input') && $('#destination-choices').val()) {
+      let startDate = $('#start-date-picker').val();
+      const endDate = $('#end-date-picker').val();
+      const range = moment.range(startDate, endDate);
+      const duration = Array.from(range.by('day')).length;
+      startDate = moment(startDate).format("YYYY/MM/DD");
+      const travelers = $('#travelers-input').val();
+      const destinationID = $('#destination-choices').find('option:selected').attr('id');
+      e.data.currentUser.requestTrip(destinationID, travelers, startDate, duration)
+      e.data.trips = e.data.currentUser.myTrips;
+      $('#required').text('wander request successfully submitted');
+      dom.displayTrips(e.data)
+    } else {
+      $('#required').text('all fields are required').hide().fadeIn(2000).delay(1000).fadeOut(2000);
+    }
   },
 
   addDestinationOptions(state) {
     const destinationOptions = state.destinations.map(dest => {
-      return `<option value="${dest.destination}">${dest.destination}</option>`
+      return `<option id="${dest.id}" value="${dest.destination}">${dest.destination}</option>`
     })
     const destHTML = destinationOptions.join('');
     $('#destination-choices').html(destHTML);
