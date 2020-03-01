@@ -3,8 +3,8 @@ import { BASE, TRIPS_ENDPOINT } from '../constants/constants';
 class Trip {
   constructor(trip) {
     this.id = trip.id || Date.now();
-    this.userID = trip.userID;
-    this.destinationID = trip.destinationID;
+    this.userID = trip.userID || trip.userId;
+    this.destinationID = trip.destinationID || trip.destinationId;
     this.travelers = trip.travelers;
     // <string 'YYYY/MM/DD'>
     this.date = trip.date;
