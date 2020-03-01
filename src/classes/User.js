@@ -26,12 +26,17 @@ class User {
     }
   }
 
+  showPendingTrips(trips) {
+    const pendingTrips = trips.filter(trip => trip.status === 'pending');
+    return pendingTrips;
+  }
+
   showPastTrips(trips) {
     const pastTrips = trips.filter(trip => {
       const startDate = new Date (trip.date);
       const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
       return endDate < new Date();
-    });
+    })
     return pastTrips;
   }
 
@@ -41,7 +46,7 @@ class User {
       const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
       const today = new Date();
       return startDate < today && today < endDate;
-    });
+    }).sort((a, b) => a[new Date(trip.date)] - b[new Date(trip.date)])
     return currentTrips;
   }
 
