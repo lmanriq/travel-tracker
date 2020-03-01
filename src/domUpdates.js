@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Traveler from './classes/Traveler';
+import Trip from './classes/Trip';
 import TravelAgency from './classes/TravelAgency';
 import { BASE, TRAVELER_ENDPOINT } from './constants/constants';
 import {
@@ -18,15 +19,28 @@ const dom = {
   },
 
   bindDashBtns(state) {
-    $('.btn--submit').on('click', function() {
-      dom.submitTripRequest(state);
-    });
+    $('.btn--submit').on('click', null, state, dom.submitTripRequest);
     $('.btn--pending').on('click', function() {
       dom.showPendingTrips(state);
     });
+    $('.btn--price').on('click', null, state, dom.showCostBreakdown);
     $('.btn--all').on('click', function() {
       dom.displayTrips(state);
     });
+  },
+
+  showCostBreakdown(e) {
+    let trip = dom.grabTripDetails(e.data);
+    if (trip) {
+      console.log(trip)
+      trip.userId = e.data.currentUser.id;
+      trip = new Trip(trip);
+      const breakdown = trip.calculateCostBreakdown(e.data.destinations);
+      $('#price').html(`<p>Flights: $${breakdown.flightCost}, Lodging: $${breakdown.lodgingCost},
+        Service Fee: $${breakdown.serviceFee}</p><p>Total: $${breakdown.totalCost}</p>`)
+    } else {
+      $('#required').text('all fields are required').hide().fadeIn(2000).delay(1000).fadeOut(2000);
+    }
   },
 
   showPendingTrips(state) {
@@ -59,8 +73,7 @@ const dom = {
     dom.bindDashBtns(state);
   },
 
-  submitTripRequest(e) {
-    e.preventDefault();
+  grabTripDetails(state) {
     if($('#start-date-picker').val() && $('#end-date-picker').val()
     && $('#travelers-input') && $('#destination-choices').val()) {
       let startDate = $('#start-date-picker').val();
@@ -68,12 +81,28 @@ const dom = {
       const range = moment.range(startDate, endDate);
       const duration = Array.from(range.by('day')).length;
       startDate = moment(startDate).format("YYYY/MM/DD");
-      const travelers = $('#travelers-input').val();
-      const destinationID = $('#destination-choices').find('option:selected').attr('id');
-      state.currentUser.requestTrip(destinationID, travelers, startDate, duration);
-      state.trips = state.currentUser.myTrips;
+      const travelers = parseInt($('#travelers-input').val());
+      const destinationId = parseInt($('#destination-choices').find('option:selected').attr('id'));
+      return {
+        date: startDate,
+        destinationId,
+        travelers,
+        duration
+      }
+    }
+  },
+
+  submitTripRequest(e) {
+    e.preventDefault();
+    const trip = dom.grabTripDetails(e.data);
+    if (trip) {
+      e.data.currentUser.requestTrip(trip.destinationId, trip.travelers, trip.date, trip.duration)
+        .then(data => {
+          console.log(data);
+          e.data.trips = e.data.currentUser.myTrips;
+          dom.displayTrips(e.data)
+        })
       $('#required').text('wander request successfully submitted').hide().fadeIn(2000).delay(1000).fadeOut(2000);
-      dom.displayTrips(state);
     } else {
       $('#required').text('all fields are required').hide().fadeIn(2000).delay(1000).fadeOut(2000);
     }
