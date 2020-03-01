@@ -14,14 +14,14 @@ class Traveler extends User {
     this.myTrips = tripData.filter(trip => trip.userID === this.id);
   }
 
-  requestTrip(destinationId, travelers, date, duration) {
+  requestTrip(destinationID, travelers, date, duration) {
     const dateStamp = Date.now();
-    destinationId = parseInt(destinationId);
+    destinationID = parseInt(destinationID);
     travelers = parseInt(travelers);
     const myTrip = {
       id: dateStamp,
-      userId: this.id,
-      destinationId,
+      userID: this.id,
+      destinationID,
       travelers,
       date,
       duration,
