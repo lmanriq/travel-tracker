@@ -52,10 +52,10 @@ const dom = {
       startDate = moment(startDate).format("YYYY/MM/DD");
       const travelers = $('#travelers-input').val();
       const destinationID = $('#destination-choices').find('option:selected').attr('id');
-      e.data.currentUser.requestTrip(destinationID, travelers, startDate, duration)
+      e.data.currentUser.requestTrip(destinationID, travelers, startDate, duration);
       e.data.trips = e.data.currentUser.myTrips;
-      $('#required').text('wander request successfully submitted');
-      dom.displayTrips(e.data)
+      $('#required').text('wander request successfully submitted').hide().fadeIn(2000).delay(1000).fadeOut(2000);
+      dom.displayTrips(e.data);
     } else {
       $('#required').text('all fields are required').hide().fadeIn(2000).delay(1000).fadeOut(2000);
     }
@@ -89,6 +89,7 @@ const dom = {
   },
 
   displayTrips(state) {
+    console.log(state);
     const currentTrips = state.currentUser.showCurrentTrips(state.trips);
     const pastTrips = state.currentUser.showPastTrips(state.trips);
     const futureTrips = state.currentUser.showFutureTrips(state.trips);
