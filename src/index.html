@@ -35,7 +35,7 @@
         </div>
         <div class="spendings-box">
           <i class="fas fa-usd-circle"></i>
-          <h3>amount spent to date</h3>
+          <h3>amount spent this year</h3>
           <h3>$<span id="amount-spent"></span></h3>
         </div>
       </header>
@@ -66,7 +66,11 @@
             <input id="travelers-input" type="number" name="number of travelers" value="1" min="1" max="20">
             <label for="destinations">destinations:</label>
             <select id="destination-choices"></select>
-            <button class="btn btn--submit" type="submit" name="submit">submit</button>
+            <div class="btn-container">
+              <button class="btn btn--price" type="button" name="price">show price estimate</button>
+              <button class="btn btn--submit" type="submit" name="submit">submit</button>
+            </div>
+            <p id="price"></p>
             <p id="required"></p>
             <p>we will contact you when your trip has been approved</p>
           </form>
