@@ -27,6 +27,8 @@ const dom = {
     $('.btn--all').on('click', function() {
       dom.displayTrips(state);
     });
+    $('.current-trips').on('click', '.trip', state, dom.showTravelDetails);
+    $('.expanded-trip-details').on('click', '.btn--exit', state, dom.hideTripDetails);
   },
 
   bindAgentBtns(state) {
@@ -36,14 +38,44 @@ const dom = {
     $('.btn--all').on('click', function() {
       dom.displayTrips(state);
     });
-    $('.current-trips').on('click', '.trip', state, dom.showAgencyTravelDetails);
+    $('.current-trips').on('click', '.trip', state, dom.showTravelDetails);
+    $('.trip-form').on('click', 'li', state, dom.showTravelDetails);
     $('.expanded-trip-details').on('click', '.btn--exit', state, dom.hideTripDetails);
     $('.expanded-trip-details').on('click', '.btn--approve', state, dom.approvePendingTrip);
     $('.expanded-trip-details').on('click', '.btn--deny', state, dom.denyPendingTrip);
+    $('.btn--search').on('click', function() {
+      dom.searchAllTravelers(state);
+    });
+  },
+
+  addCommas(n) {
+    return n.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  },
+
+  searchAllTravelers(state) {
+    const query = $('#traveler-search').val().toLowerCase();
+    let traveler = state.travelers.find(traveler => traveler.name.toLowerCase().includes(query));
+    if (traveler) {
+      traveler = new Traveler(traveler, state.trips);
+      let trips = traveler.myTrips.map(trip => {
+        const dest = state.destinations.find(dest => dest.id === trip.destinationID);
+        const endDate = moment(trip.date).add(trip.duration, 'days').calendar();
+        return `<li class="${trip.id}">${dest.destination} (${trip.status})<p>${trip.date} - ${endDate}</p></li>`
+      })
+      const travelerHTML = `<h2>${traveler.name.toLowerCase()}</h2>
+        <p>total spent this year: $${dom.addCommas(traveler.calculateTotalAmountSpent(state.destinations))}</p>
+        <ul>${trips.join('')}</ul>
+        <p>click on a wandering for expanded details</p>`
+      $('.search-output').html(travelerHTML);
+    } else {
+      const noResultsHTML = `<h2>no wanderers found by that name</h2>`
+      $('.search-output').html(noResultsHTML);
+    }
   },
 
   hideTripDetails(e) {
     $('.expanded-trip-details').toggleClass('hidden');
+    $('.overlay').remove();
     dom.displayTrips(e.data);
   },
 
@@ -65,8 +97,8 @@ const dom = {
       trip.userId = e.data.currentUser.id;
       trip = new Trip(trip);
       const breakdown = trip.calculateCostBreakdown(e.data.destinations);
-      $('#price').html(`<p>Flights: $${breakdown.flightCost}, Lodging: $${breakdown.lodgingCost},
-        Service Fee: $${breakdown.serviceFee}</p><p>Total: $${breakdown.totalCost}</p>`)
+      $('#price').html(`<p>flights: $${dom.addCommas(breakdown.flightCost)}, lodging: $${dom.addCommas(breakdown.lodgingCost)},
+        Service Fee: $${dom.addCommas(breakdown.serviceFee)}</p><p>Total: $${dom.addCommas(breakdown.totalCost)}</p>`)
     } else {
       $('#required').text('all fields are required').hide().fadeIn(2000).delay(1000).fadeOut(2000);
     }
@@ -120,7 +152,8 @@ const dom = {
     $('#side-header').text('search all wanderers');
     const searchForm = `<label for="traveler-search">name:</label>
       <input id="traveler-search" type="text">
-      <button class="btn btn--search" type="button" name="search">search</button>`
+      <button class="btn btn--search" type="button" name="search">search</button>
+      <div class="search-output"></div>`
     $('.trip-form').html(searchForm);
   },
 
@@ -180,16 +213,15 @@ const dom = {
     </article>`
   },
 
-  showAgencyTravelDetails(e) {
-    const targetID = parseInt($(this).closest('.trip').attr('id'));
+  showTravelDetails(e) {
+    let targetID = $(this).closest('.trip').attr('id') || $(this).closest('li').attr('class');
+    targetID = parseInt(targetID);
     const targetTrip = e.data.trips.find(trip => trip.id === targetID);
     const user = e.data.travelers.find(user => user.id === targetTrip.userID);
     const destination = e.data.destinations.find(dest => dest.id === targetTrip.destinationID);
     const cost = targetTrip.calculateCostBreakdown(e.data.destinations);
-    const buttonHTML = `<div class="btn-container">
-        <button class="btn btn--approve" type="button" name="approve">approve</button>
-        <button class="btn btn--deny" type="button" name="deny">deny</button>
-      </div>`
+    const approveBtn = `<button class="btn btn--approve" type="button" name="approve">approve</button>`
+    const hidden = e.data.currentUser instanceof Traveler ? 'hidden' : '';
     const detailsHTML = `
     <button class="btn btn--exit" type="button" name="exit">x</button>
     <h2>${destination.destination.toLowerCase()}</h2>
@@ -197,11 +229,15 @@ const dom = {
     <p>duration: ${targetTrip.duration}</p>
     <p>wanderers: ${targetTrip.travelers}</p>
     <p>status: ${targetTrip.status}</p>
-    <p>total cost: $${cost.totalCost.toFixed(2)}</p>
-    <p>agency percentage: $${cost.serviceFee.toFixed(2)}</p>
+    <p>total cost: $${dom.addCommas(cost.totalCost)}</p>
+    <p ${hidden}>agency percentage: $${dom.addCommas(cost.serviceFee)}</p>
     <p id="success-msg"></p>
-    ${targetTrip.status === 'approved' ? '' : buttonHTML}
+    <div class="btn-container ${hidden}">
+        <button class="btn btn--deny" type="button" name="deny">deny</button>
+        ${targetTrip.status === 'approved' ? '' : approveBtn}
+    </div>
     `
+    $('.expanded-trip-details').before('<section class="overlay"></section>');
     $('.expanded-trip-details').toggleClass('hidden');
     $('.expanded-trip-details').attr('id', targetID);
     $('.expanded-trip-details').html(detailsHTML)
@@ -209,15 +245,13 @@ const dom = {
 
   displayTotalRevenue(state) {
     let amount = state.currentUser.calculateTotalRevenue(state.travelers, state.destinations, state.trips);
-    amount = amount.toFixed(2);
-    amount = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    amount = dom.addCommas(amount);
     $('#amount-spent').text(amount);
   },
 
   displayAmountSpentTraveler(state) {
     let amount = state.currentUser.calculateTotalAmountSpent(state.destinations);
-    amount = amount.toFixed(2);
-    amount = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    amount = dom.addCommas(amount);
     $('#amount-spent').text(amount)
   },
 
