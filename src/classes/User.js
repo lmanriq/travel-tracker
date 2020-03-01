@@ -46,7 +46,7 @@ class User {
       const endDate = new Date(moment(startDate).add(trip.duration, 'days').calendar());
       const today = new Date();
       return startDate < today && today < endDate;
-    }).sort((a, b) => a[new Date(trip.date)] - b[new Date(trip.date)])
+    }).sort((a, b) => a[new Date(a.date)] - b[new Date(a.date)])
     return currentTrips;
   }
 

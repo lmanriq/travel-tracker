@@ -58,7 +58,7 @@ class Traveler extends User {
       trip = new Trip(trip);
       return cost + trip.calculateCostBreakdown(destinationData).totalCost;
     }, 0)
-    return totalSpent.toFixed(2);
+    return totalSpent;
   }
 }
 
