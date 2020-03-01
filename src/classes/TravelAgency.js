@@ -50,11 +50,12 @@ class TravelAgency extends User {
     }
   }
 
-  calculateTotalRevenue(travelerData, destinationData) {
-    const allTravelers = travelerData.map(traveler => new Traveler(traveler));
-    return allTravelers.reduce((total, traveler) => {
+  calculateTotalRevenue(travelerData, destinationData, tripData) {
+    const allTravelers = travelerData.map(traveler => new Traveler(traveler, tripData));
+    const total = allTravelers.reduce((total, traveler) => {
       return total + traveler.calculateTotalAmountSpent(destinationData);
     }, 0);
+    return total * .1;
   }
 }
 
