@@ -25,6 +25,14 @@ const sampleDestinations = {
       "alt": "opera house and city buildings on the water with boats"
     },
     {
+      "id": 4,
+      "destination": "Madrid, Spain",
+      "estimatedLodgingCostPerDay": 150,
+      "estimatedFlightCostPerPerson": 650,
+      "image": "https://images.unsplash.com/photo-1543785734-4b6e564642f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
+      "alt": "city with clear skys and a road in the day time"
+    },
+    {
       "id": 5,
       "destination": "Madrid, Spain",
       "estimatedLodgingCostPerDay": 150,
