@@ -105,18 +105,7 @@ describe('User', function() {
     });
 
     it('should be able to show its current trips', function() {
-      expect(user.showCurrentTrips(tripData)).to.deep.eq([
-        {
-          id: 121,
-          userID: 1,
-          destinationID: 9,
-          travelers: 3,
-          date: '2020/02/27',
-          duration: 9,
-          status: 'approved',
-          suggestedActivities: []
-        }
-      ]);
+      expect(user.showCurrentTrips(tripData)).to.deep.eq([]);
     });
 
     it('should be able to show its future trips', function() {

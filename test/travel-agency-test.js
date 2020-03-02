@@ -7,8 +7,6 @@ import { BASE, TRIPS_MODIFICATION_ENDPOINT } from '../src/constants/constants';
 import TravelAgency from '../src/classes/TravelAgency';
 import Trip from '../src/classes/Trip';
 
-// import sampleTravelers from '../data/sample-traveler-data';
-
 describe('TravelAgency', function() {
   let agent;
   let tripData;
@@ -18,18 +16,7 @@ describe('TravelAgency', function() {
 
   beforeEach(function() {
     global.window = {};
-    // trip = new Trip({
-    //   "id": 5,
-    //   "userID": 42,
-    //   "destinationID": 29,
-    //   "travelers": 3,
-    //   "date": "2020/04/30",
-    //   "duration": 18,
-    //   "status": "approved",
-    //   "suggestedActivities": []
-    // });
     chai.spy.on(window, 'fetch', () => new Promise((resolve, reject) => {}));
-    // chai.spy.on(trip, 'delete', () => {});
     tripData = sampleTrips.trips;
     travelerData = sampleTravelers.travelers;
     destinationData = sampleDestinations.destinations;
@@ -81,10 +68,9 @@ describe('TravelAgency', function() {
     });
   });
 
-  // it('should be able to deny trip requests', function() {
-  //   agent.denyRequest(5, tripData);
-  //   expect(trip.delete).to.be.called(1);
-  // });
+  it('should be able to deny trip requests', function() {
+    expect(agent.denyRequest(5, tripData)).to.be.an.instanceof(Promise);
+  });
 
   it('should be able to search for travelers', function() {
     expect(agent.searchForTraveler('Ham Leadbeater', travelerData, tripData, destinationData)).to.deep.eq({

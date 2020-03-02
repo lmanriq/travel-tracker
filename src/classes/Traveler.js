@@ -8,9 +8,6 @@ moment().format();
 class Traveler extends User {
   constructor(user, tripData) {
     super(user);
-    // this.id = user ? user.id : null;
-    // this.name = user ? user.name : null;
-    // this.travelerType = user ? user.travelerType : null;
     this.myTrips = tripData.filter(trip => trip.userID === this.id);
   }
 

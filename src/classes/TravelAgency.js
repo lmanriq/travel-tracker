@@ -6,9 +6,6 @@ import Traveler from '../classes/Traveler';
 class TravelAgency extends User {
   constructor(user) {
     super(user);
-    // this.id = user ? user.id : null;
-    // this.name = user ? user.name : null;
-    // this.travelerType = user ? user.travelerType : null;
   }
 
   approveRequest(tripID) {
@@ -37,7 +34,7 @@ class TravelAgency extends User {
 
   denyRequest(tripID, tripData) {
     const targetTrip = new Trip(tripData.find(trip => trip.id === tripID));
-    targetTrip.delete();
+    return targetTrip.delete();
   }
 
   searchForTraveler(travelerName, travelerData, tripData, destinationData) {

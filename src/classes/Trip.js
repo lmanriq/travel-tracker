@@ -6,7 +6,6 @@ class Trip {
     this.userID = trip.userID || trip.userId;
     this.destinationID = trip.destinationID || trip.destinationId;
     this.travelers = trip.travelers;
-    // <string 'YYYY/MM/DD'>
     this.date = trip.date;
     this.duration = trip.duration;
     this.status = trip.status || 'pending';
@@ -32,7 +31,7 @@ class Trip {
   }
 
   delete() {
-    window
+    return window
       .fetch(BASE + TRIPS_ENDPOINT, {
         method: 'DELETE',
         headers: {

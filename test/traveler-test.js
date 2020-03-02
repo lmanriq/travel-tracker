@@ -121,6 +121,6 @@ describe('Traveler', function() {
   });
 
   it('should be able to calculate the total amount spent on trips', function() {
-    expect(traveler.calculateTotalAmountSpent(destinationData)).to.eq(19195)
+    expect(traveler.calculateTotalAmountSpent(destinationData)).to.eq(6105)
   });
 });
