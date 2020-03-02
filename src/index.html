@@ -52,27 +52,29 @@
         </article>
       </section>
       <section class="add-trip">
-        <section class="trip-selections">
-          <h2 id="side-header">new wandering</h2>
-          <div class="agent-details"></div>
-          <form autocomplete="off" class="trip-form">
-            <label for="start-date-picker">start date:</label>
-            <input id="start-date-picker">
-            <label for="start-date-picker">end date:</label>
-            <input id="end-date-picker">
-            <label for="travelers-input">wanderers:</label>
-            <input id="travelers-input" type="number" name="number of travelers" value="1" min="1" max="20">
-            <label for="destinations">destinations:</label>
-            <select id="destination-choices"></select>
-            <div class="btn-container">
-              <button class="btn btn--price" type="button" name="price">show price quote</button>
-              <button class="btn btn--submit" type="submit" name="submit">submit</button>
-            </div>
-            <p id="price"></p>
-            <p id="required"></p>
-            <p>we will contact you when your trip has been approved</p>
-          </form>
-        </section>
+        <div class="table-background">
+          <section class="trip-selections">
+            <h2 id="side-header">new wandering</h2>
+            <div class="agent-details"></div>
+            <form autocomplete="off" class="trip-form">
+              <label for="start-date-picker">start date:</label>
+              <input id="start-date-picker">
+              <label for="start-date-picker">end date:</label>
+              <input id="end-date-picker">
+              <label for="travelers-input">wanderers:</label>
+              <input id="travelers-input" type="number" name="number of travelers" value="1" min="1" max="20">
+              <label for="destinations">destinations:</label>
+              <select id="destination-choices"></select>
+              <div class="btn-container">
+                <button class="btn btn--price" type="button" name="price">show price quote</button>
+                <button class="btn btn--submit" type="submit" name="submit">submit</button>
+              </div>
+              <p id="price"></p>
+              <p id="required"></p>
+              <p>we will contact you when your trip has been approved</p>
+            </form>
+          </section>
+        </div>
     </section>
   </section>
   <article class="expanded-trip-details hidden">
