@@ -3,12 +3,6 @@
   height: 100%;
 }
 
-.background-circle,
-.logo-box {
-  background-image: url('../images/travel-background.png');
-  background-size: cover;
-}
-
 .background-circle {
   @include flex-center(column);
   text-align: center;

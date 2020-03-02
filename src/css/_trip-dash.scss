@@ -12,13 +12,14 @@
 }
 
 .trips-article {
-  @include flex-center(row)
+  @include flex-center(row);
   justify-content: flex-start;
   height: 15em;
   overflow-y: hidden;
   overflow-x: scroll;
   margin: 20px;
   img {
+    border-radius: 5px;
     height: 200px;
     margin: 0 20px;
   }
@@ -37,12 +38,18 @@
   cursor: pointer;
   .trip-details {
     @include flex-center(column);
-    background-color: transparentize($primary-color, 0.3);
+    background-color: $primary-color;
     position: absolute;
     top: 10%;
+    padding: 5px;
+    border-radius: 3px;
   }
   .current {
-    background-color: transparentize($secondary-color, 0.3);
+    background-color: $secondary-color;
+  }
+  &:hover,
+  &:focus {
+    filter: brightness(70%);
   }
 }
 
@@ -61,17 +68,21 @@
 
 .add-trip {
   grid-area: add;
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid $primary-font-color;
 }
 
 .trip-selections {
   @include flex-center(column);
-  background-color: transparentize($secondary-color, 0.3);
+  background-color: $secondary-color;
   margin: 20px;
   padding: 20px;
   text-align: center;
   .btn {
     background-color: $secondary-font-color;
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: darken($secondary-font-color, 10);
     }
   }

@@ -1,16 +1,17 @@
 h1,
 h2,
 h3 {
-  @include font-border-outline($primary-font-color, $secondary-font-color);
   text-align: center;
 }
 
 h1,
 h2 {
+  @include font-border-outline($primary-font-color, $secondary-font-color);
   font-size: 3em;
 }
 
 h3 {
+  color: $primary-font-color;
   font-size: 1.5em;
 }
 
