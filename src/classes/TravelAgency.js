@@ -37,13 +37,14 @@ class TravelAgency extends User {
     return targetTrip.delete();
   }
 
-  searchForTraveler(travelerName, travelerData, tripData, destinationData) {
-    let targetTraveler = travelerData.find(traveler => traveler.name === travelerName);
+  searchForTraveler(query, travelerData, tripData, destinationData) {
+    query = query.toLowerCase();
+    let targetTraveler = travelerData.find(traveler => traveler.name.toLowerCase().includes(query));
     if (targetTraveler) {
       targetTraveler = new Traveler(targetTraveler, tripData);
       return targetTraveler;
     } else {
-      return 'User not found'
+      return 'no wanderers found by that name'
     }
   }
 
