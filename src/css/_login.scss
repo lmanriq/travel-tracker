@@ -19,7 +19,6 @@
   height: 40%;
   padding: 25px;
   .text {
-    @include font-border-outline($primary-font-color, $secondary-color);
     font-size: 1.2em;
   }
   .alert {
