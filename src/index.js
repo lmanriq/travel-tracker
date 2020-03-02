@@ -16,6 +16,7 @@ const state = {
 }
 
 dom.loadLogin();
+
 const getUserDetails = (login) => {
   window.fetch(BASE + TRAVELERS_ENDPOINT + login)
     .then(response => {

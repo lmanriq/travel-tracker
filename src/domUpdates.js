@@ -62,7 +62,7 @@ const dom = {
     dom.loadDashboard(state);
     dom.displayTrips(state);
     dom.displayAmountSpentTraveler(state);
-    dom.showCountdown(state)
+    dom.showCountdownDetails(state)
     dom.addDatePicker();
     dom.addDestinationOptions(state);
     dom.bindTravelerBtns(state);
@@ -227,28 +227,33 @@ const dom = {
     </article>`
   },
 
-  showCountdown(state) {
+  showCountdownClock(diff, destination) {
+    let duration = moment.duration(diff * 1000, 'milliseconds');
+    const interval = 1000;
+    setInterval(function() {
+      duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
+      let days = moment.duration(duration).days();
+      let hours = moment.duration(duration).hours();
+      let mins = moment.duration(duration).minutes();
+      let secs = moment.duration(duration).seconds();
+      $('.countdown').text(`${days}:${hours}:${mins}:${secs} til your next wandering in ${destination.destination.toLowerCase()}`);
+    }, interval);
+  },
+
+  showCountdownDetails(state) {
     const currentTrips = dom.sortByDate(state.currentUser.showCurrentTrips(state.trips));
     const futureTrips = dom.sortByDate(state.currentUser.showFutureTrips(state.trips));
     if (currentTrips.length) {
-      $('.countdown').text(`you're in ${currentTrips[0].destination}! happy wandering`);
+      const currentTrip = currentTrips[0];
+      const destination = state.destinations.find(dest => dest.id === currentTrip.destinationID);
+      $('.countdown').text(`you're in ${destination.destination.toLowerCase()}! happy wandering.`);
     } else {
       const nextTrip = futureTrips[0];
       const destination = state.destinations.find(dest => dest.id === nextTrip.destinationID);
-      console.log(nextTrip.date)
       const travelDate = moment(nextTrip.date, 'YYYY/MM/DD').unix();
       const today = moment().unix();
       const diff = travelDate - today;
-      let duration = moment.duration(diff * 1000, 'milliseconds');
-      const interval = 1000;
-      setInterval(function() {
-        duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
-        let days = moment.duration(duration).days();
-        let hours = moment.duration(duration).hours();
-        let mins = moment.duration(duration).minutes();
-        let secs = moment.duration(duration).seconds();
-        $('.countdown').text(`${days}:${hours}:${mins}:${secs} til your next wandering in ${destination.destination.toLowerCase()}`);
-      }, interval);
+      dom.showCountdownClock(diff, destination);
     }
   },
 
@@ -261,7 +266,8 @@ const dom = {
       let trips = traveler.myTrips.map(trip => {
         const dest = state.destinations.find(dest => dest.id === trip.destinationID);
         const startDate = moment(trip.date).format('l');
-        const endDate = moment(trip.date).add(trip.duration, 'days').calendar();
+        let endDate = moment(trip.date).add(trip.duration, 'days').calendar();
+        endDate = moment(endDate).format('l');
         return `<li class="${trip.id}">${dest.destination} (${trip.status})<p>${startDate} - ${endDate}</p></li>`
       })
       const travelerHTML = `<h2>${traveler.name.toLowerCase()}</h2>
@@ -290,7 +296,7 @@ const dom = {
 
   showPendingTrips(state) {
     const user = state.currentUser;
-    const pending = user.showPendingTrips(state.trips);
+    const pending = dom.sortByDate(user.showPendingTrips(state.trips));
     const pendingCards = pending.map(trip => {
       const destination = state.destinations.find(destination => destination.id === trip.destinationID);
       return dom.makeTripCard(trip, destination);
@@ -350,7 +356,7 @@ const dom = {
           dom.displayTrips(e.data)
         })
       $('#required').text('wander request successfully submitted').hide().fadeIn(2000).delay(1000).fadeOut(2000);
-      Promise.all([getData(TRIPS_ENDPOINT), getUserDetails(e.data.currentUser.id)])
+      Promise.all([getData(TRIPS_ENDPOINT)])
         .catch(error => {
           console.log(error.message);
         })
