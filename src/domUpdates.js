@@ -261,13 +261,12 @@ const dom = {
   searchAllTravelers(state, e) {
     e.preventDefault();
     const query = $('#traveler-search').val().toLowerCase();
-    let traveler = state.travelers.find(traveler => traveler.name.toLowerCase().includes(query));
-    if (traveler) {
-      traveler = new Traveler(traveler, state.trips);
+    let traveler = state.currentUser.searchForTraveler(query, state.travelers, state.trips, state.destinations)
+    if (traveler instanceof Traveler) {
       state.searchedTraveler = traveler;
       dom.showTravelerSearch(traveler, state);
     } else {
-      const noResultsHTML = `<h2>no wanderers found by that name</h2>`
+      const noResultsHTML = `<h2>${traveler}</h2>`
       $('.search-output').html(noResultsHTML);
     }
   },
