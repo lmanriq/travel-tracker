@@ -31,8 +31,10 @@
   }
 }
 
-.trip {
+button.trip {
   @include flex-center(column);
+  background: none;
+  border: none;
   position: relative;
   text-align: center;
   cursor: pointer;
