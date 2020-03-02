@@ -27,7 +27,6 @@ class Traveler extends User {
     }
     const newTrip = new Trip(myTrip);
     this.myTrips.push(newTrip);
-    // localStorage.setItem('myTrips', JSON.stringify(this.myTrips));
     return window
       .fetch(BASE + TRIPS_ENDPOINT, {
         method: 'POST',
