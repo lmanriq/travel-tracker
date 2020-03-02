@@ -34,6 +34,7 @@
   @include flex-center(column);
   position: relative;
   text-align: center;
+  cursor: pointer;
   .trip-details {
     @include flex-center(column);
     background-color: transparentize($primary-color, 0.3);
@@ -71,7 +72,7 @@
   .btn {
     background-color: $secondary-font-color;
     &:hover {
-      background-color: darken($secondary-font-color, 10%);
+      background-color: darken($secondary-font-color, 10);
     }
   }
   select, input {
