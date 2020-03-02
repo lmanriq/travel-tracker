@@ -6,23 +6,15 @@ import User from '../src/classes/User';
 import moment from 'moment';
 moment().format();
 
-// chai.use(spies);
-
 describe('User', function() {
   let travelerData;
   let user;
   let tripData;
-  // global.window = {};
 
   beforeEach(function() {
     travelerData = sampleTravelers.travelers;
     user = new User();
     tripData = sampleTrips.trips;
-    // chai.spy.on(window, 'fetch', () => new Promise((resolve, reject) => {}));
-  });
-
-  afterEach(function() {
-    // chai.spy.restore();
   });
 
   it('should be a function', function() {
@@ -48,8 +40,6 @@ describe('User', function() {
   describe('logging in', function() {
     it('should be able to log in (traveler)', function() {
       expect(user.logIn('traveler1', 'travel2020')).to.eq(1);
-      // expect(window.fetch).to.be.called(1);
-      // expect(window.fetch).to.be.called.with('https://fe-apps.herokuapp.com/api/v1/travel-tracker/1911/travelers/travelers/1')
     });
 
     it('should be able to log in (agency)', function() {
@@ -69,6 +59,31 @@ describe('User', function() {
   });
 
   describe('sort trips', function() {
+    it('should be able to show its pending trips', function() {
+      expect(user.showPendingTrips(tripData)).to.deep.eq([
+        {
+          id: 2,
+          userID: 4,
+          destinationID: 9,
+          travelers: 5,
+          date: '2020/10/04',
+          duration: 18,
+          status: 'pending',
+          suggestedActivities: []
+        },
+        {
+          id: 3,
+          userID: 3,
+          destinationID: 8,
+          travelers: 4,
+          date: '2020/05/22',
+          duration: 17,
+          status: 'pending',
+          suggestedActivities: []
+        }
+      ])
+    });
+
     it('should be able to show its past trips', function() {
       expect(user.showPastTrips(tripData)).to.deep.eq([
         {
