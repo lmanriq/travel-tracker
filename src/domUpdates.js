@@ -222,7 +222,7 @@ const dom = {
       let hours = moment.duration(duration).hours();
       let mins = moment.duration(duration).minutes();
       let secs = moment.duration(duration).seconds();
-      $('.countdown').text(`${days}:${hours}:${mins}:${secs} 'til your next wandering in ${destination.destination.toLowerCase()}`);
+      $('.countdown').text(`${days}d:${hours}h:${mins}m:${secs}s 'til your next wandering in ${destination.destination.toLowerCase()}`);
     }, interval);
   },
 

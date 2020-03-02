@@ -38,6 +38,7 @@ button.trip {
   position: relative;
   text-align: center;
   cursor: pointer;
+  font-size: 0.8em;
   .trip-details {
     @include flex-center(column);
     background-color: $primary-color;
