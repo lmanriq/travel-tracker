@@ -27,13 +27,18 @@ const dom = {
     });
     $('.traveler-dashboard').on('click', '.trip', state, dom.showTravelDetails);
     $('.expanded-trip-details').on('click', '.btn--exit', state, dom.hideTripDetails);
+    $('.trip').on('keyup', null, state, function(e) {
+      if (e.keyCode === 13) {
+        dom.showTravelDetails(e)
+      }
+      $('.btn--exit').focus();
+    });
   },
 
   bindDashBtns(state) {
     dom.bindUniversalBtns(state);
     $('.btn--submit').on('click', null, state, dom.submitTripRequest);
     $('.btn--price').on('click', null, state, dom.showCostBreakdown);
-    $('.trip').on('keyup', null, state, dom.showTravelDetails);
     // $('.current-trips').on('keyup', function(e) {
     //   if (e.keycode === 13) {
     //     console.log('hi')
@@ -271,8 +276,8 @@ const dom = {
   },
 
   showTravelDetails(e) {
-    let targetID = $(this).closest('.trip').attr('id') || $(this).closest('li').attr('class');
-    let targetClass = $(this).closest('.trip').attr('class');
+    let targetID = $(e.target).closest('.trip').attr('id') || $(e.target).closest('li').attr('class');
+    let targetClass = $(e.target).closest('.trip').attr('class');
     targetID = parseInt(targetID);
     const targetTrip = e.data.trips.find(trip => parseInt(trip.id) === targetID);
     const user = e.data.travelers.find(user => parseInt(user.id) === targetTrip.userID);
@@ -298,7 +303,7 @@ const dom = {
     $('.expanded-trip-details').before('<section class="overlay"></section>');
     $('.expanded-trip-details').toggleClass('hidden');
     $('.expanded-trip-details').attr('id', targetID);
-    $('.expanded-trip-details').html(detailsHTML)
+    $('.expanded-trip-details').html(detailsHTML);
   },
 
   submitTripRequest(e) {
