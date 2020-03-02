@@ -27,25 +27,12 @@ const dom = {
     });
     $('.traveler-dashboard').on('click', '.trip', state, dom.showTravelDetails);
     $('.expanded-trip-details').on('click', '.btn--exit', state, dom.hideTripDetails);
-    $('.trip').on('keyup', null, state, function(e) {
-      console.log('hi')
-      if (e.keyCode === 13) {
-        dom.showTravelDetails(e)
-      }
-      $('.btn--exit').focus();
-    });
   },
 
   bindTravelerBtns(state) {
     dom.bindUniversalBtns(state);
     $('.btn--submit').on('click', null, state, dom.submitTripRequest);
     $('.btn--price').on('click', null, state, dom.showCostBreakdown);
-    // $('.current-trips').on('keyup', function(e) {
-    //   if (e.keycode === 13) {
-    //     console.log('hi')
-    //     dom.showTravelDetails(state);
-    //   }
-    // });
   },
 
   bindAgentBtns(state) {
@@ -108,7 +95,7 @@ const dom = {
   },
 
   denyPendingTrip(e) {
-    const tripID =parseInt($('.expanded-trip-details').attr('id'));
+    const tripID = parseInt($('.expanded-trip-details').attr('id'));
     e.data.currentUser.denyRequest(tripID, e.data.trips);
     $('#success-msg').text('Trip successfully denied.');
     dom.refreshTrips(e);
@@ -161,7 +148,6 @@ const dom = {
         console.log(e.data.currentUser)
         e.data.trips = data.trips.map(trip => new Trip(trip));
         dom.displayTrips(e.data);
-
       })
       .catch(error => {
         console.log(error.message)
@@ -217,14 +203,14 @@ const dom = {
     const status = time ? `${time} (${trip.status})` : trip.status;
     let endDate = moment(startDate).add(trip.duration, 'days').calendar();
     endDate = moment(endDate).format('l');
-    return `<article tabindex=0 id="${trip.id}" class="${time || ''} trip">
+    return `<button id="${trip.id}" class="${time || ''} trip">
       <div class="${time} trip-details">
         <h3>${destination.destination.toLowerCase()}</h3>
         <p>${startDate} - ${endDate}</p>
         <p>${status}</p>
       </div>
       <img src="${destination.image}" alt="${destination.alt}" class="${trip.status}">
-    </article>`
+    </button>`
   },
 
   showCountdownClock(diff, destination) {
@@ -236,7 +222,7 @@ const dom = {
       let hours = moment.duration(duration).hours();
       let mins = moment.duration(duration).minutes();
       let secs = moment.duration(duration).seconds();
-      $('.countdown').text(`${days}:${hours}:${mins}:${secs} til your next wandering in ${destination.destination.toLowerCase()}`);
+      $('.countdown').text(`${days}:${hours}:${mins}:${secs} 'til your next wandering in ${destination.destination.toLowerCase()}`);
     }, interval);
   },
 
@@ -257,24 +243,29 @@ const dom = {
     }
   },
 
+  showTravelerSearch(traveler, state) {
+    let trips = traveler.myTrips.map(trip => {
+      const dest = state.destinations.find(dest => dest.id === trip.destinationID);
+      const startDate = moment(trip.date).format('l');
+      let endDate = moment(trip.date).add(trip.duration, 'days').calendar();
+      endDate = moment(endDate).format('l');
+      return `<li class="${trip.id}">${dest.destination} (${trip.status})<p>${startDate} - ${endDate}</p></li>`
+    })
+    const travelerHTML = `<h2>${traveler.name.toLowerCase()}</h2>
+      <p>total spent this year: $${dom.addCommas(traveler.calculateTotalAmountSpent(state.destinations))}</p>
+      <ul>${trips.join('')}</ul>
+      <p>click on a wandering for expanded details</p>`
+    $('.search-output').html(travelerHTML);
+  },
+
   searchAllTravelers(state, e) {
     e.preventDefault();
     const query = $('#traveler-search').val().toLowerCase();
     let traveler = state.travelers.find(traveler => traveler.name.toLowerCase().includes(query));
     if (traveler) {
       traveler = new Traveler(traveler, state.trips);
-      let trips = traveler.myTrips.map(trip => {
-        const dest = state.destinations.find(dest => dest.id === trip.destinationID);
-        const startDate = moment(trip.date).format('l');
-        let endDate = moment(trip.date).add(trip.duration, 'days').calendar();
-        endDate = moment(endDate).format('l');
-        return `<li class="${trip.id}">${dest.destination} (${trip.status})<p>${startDate} - ${endDate}</p></li>`
-      })
-      const travelerHTML = `<h2>${traveler.name.toLowerCase()}</h2>
-        <p>total spent this year: $${dom.addCommas(traveler.calculateTotalAmountSpent(state.destinations))}</p>
-        <ul>${trips.join('')}</ul>
-        <p>click on a wandering for expanded details</p>`
-      $('.search-output').html(travelerHTML);
+      state.searchedTraveler = traveler;
+      dom.showTravelerSearch(traveler, state);
     } else {
       const noResultsHTML = `<h2>no wanderers found by that name</h2>`
       $('.search-output').html(noResultsHTML);
@@ -338,6 +329,7 @@ const dom = {
     $('.expanded-trip-details').toggleClass('hidden');
     $('.expanded-trip-details').attr('id', targetID);
     $('.expanded-trip-details').html(detailsHTML);
+    $('.btn--exit').focus();
   },
 
   sortByDate(trips) {
