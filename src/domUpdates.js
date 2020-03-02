@@ -276,7 +276,7 @@ const dom = {
   },
 
   loadDashboard(state) {
-    $('.login-screen').fadeOut(1500);
+    $('.login-screen').hide();
     $('.traveler-dashboard').toggleClass('hidden');
     const firstName = state.currentUser.name.split(' ')[0].toLowerCase();
     $('#username-span').text(firstName);
