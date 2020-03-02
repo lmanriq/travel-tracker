@@ -14,8 +14,6 @@ import { BASE, TRAVELERS_ENDPOINT, TRIPS_ENDPOINT, DESTINATIONS_ENDPOINT } from 
 import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/plane-icon.svg'
-
 const state = {
   currentUser: new User(),
   trips: null,
@@ -55,7 +53,7 @@ export const findUser = (e) => {
   }
 }
 
-const getData = (endpoint) => {
+export const getData = (endpoint) => {
   return fetch(BASE + endpoint)
     .then(response => {
       console.log(response.status)
@@ -78,8 +76,3 @@ Promise.all([getData(TRIPS_ENDPOINT), getData(DESTINATIONS_ENDPOINT), getData(TR
   })
 
 dom.bindLoginButton(state) ;
-
-
-
-
-console.log('This is the JavaScript entry file - your code begins here.');
