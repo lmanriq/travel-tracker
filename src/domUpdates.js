@@ -28,6 +28,7 @@ const dom = {
     $('.traveler-dashboard').on('click', '.trip', state, dom.showTravelDetails);
     $('.expanded-trip-details').on('click', '.btn--exit', state, dom.hideTripDetails);
     $('.trip').on('keyup', null, state, function(e) {
+      console.log('hi')
       if (e.keyCode === 13) {
         dom.showTravelDetails(e)
       }
@@ -35,7 +36,7 @@ const dom = {
     });
   },
 
-  bindDashBtns(state) {
+  bindTravelerBtns(state) {
     dom.bindUniversalBtns(state);
     $('.btn--submit').on('click', null, state, dom.submitTripRequest);
     $('.btn--price').on('click', null, state, dom.showCostBreakdown);
@@ -61,9 +62,10 @@ const dom = {
     dom.loadDashboard(state);
     dom.displayTrips(state);
     dom.displayAmountSpentTraveler(state);
+    dom.showCountdown(state)
     dom.addDatePicker();
     dom.addDestinationOptions(state);
-    dom.bindDashBtns(state);
+    dom.bindTravelerBtns(state);
   },
 
   loadTravelAgent(state) {
@@ -134,9 +136,9 @@ const dom = {
   },
 
   displayTrips(state) {
-    const currentTrips = state.currentUser.showCurrentTrips(state.trips);
-    const pastTrips = state.currentUser.showPastTrips(state.trips);
-    const futureTrips = state.currentUser.showFutureTrips(state.trips);
+    const currentTrips = dom.sortByDate(state.currentUser.showCurrentTrips(state.trips));
+    const pastTrips = dom.sortByDate(state.currentUser.showPastTrips(state.trips));
+    const futureTrips = dom.sortByDate(state.currentUser.showFutureTrips(state.trips));
     const currentTripCards = currentTrips.map(trip => {
       const destination = state.destinations.find(destination => destination.id === parseInt(trip.destinationID));
       return dom.makeTripCard(trip, destination, 'current');
@@ -212,16 +214,42 @@ const dom = {
 
   makeTripCard(trip, destination, time) {
     const startDate = moment(trip.date).format('l');
+    const status = time ? `${time} (${trip.status})` : trip.status;
     let endDate = moment(startDate).add(trip.duration, 'days').calendar();
     endDate = moment(endDate).format('l');
     return `<article tabindex=0 id="${trip.id}" class="${time || ''} trip">
       <div class="${time} trip-details">
         <h3>${destination.destination.toLowerCase()}</h3>
         <p>${startDate} - ${endDate}</p>
-        <p>${time || trip.status}</p>
+        <p>${status}</p>
       </div>
       <img src="${destination.image}" alt="${destination.alt}" class="${trip.status}">
     </article>`
+  },
+
+  showCountdown(state) {
+    const currentTrips = dom.sortByDate(state.currentUser.showCurrentTrips(state.trips));
+    const futureTrips = dom.sortByDate(state.currentUser.showFutureTrips(state.trips));
+    if (currentTrips.length) {
+      $('.countdown').text(`you're in ${currentTrips[0].destination}! happy wandering`);
+    } else {
+      const nextTrip = futureTrips[0];
+      const destination = state.destinations.find(dest => dest.id === nextTrip.destinationID);
+      console.log(nextTrip.date)
+      const travelDate = moment(nextTrip.date, 'YYYY/MM/DD').unix();
+      const today = moment().unix();
+      const diff = travelDate - today;
+      let duration = moment.duration(diff * 1000, 'milliseconds');
+      const interval = 1000;
+      setInterval(function() {
+        duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
+        let days = moment.duration(duration).days();
+        let hours = moment.duration(duration).hours();
+        let mins = moment.duration(duration).minutes();
+        let secs = moment.duration(duration).seconds();
+        $('.countdown').text(`${days}:${hours}:${mins}:${secs} til your next wandering in ${destination.destination.toLowerCase()}`);
+      }, interval);
+    }
   },
 
   searchAllTravelers(state, e) {
@@ -306,6 +334,12 @@ const dom = {
     $('.expanded-trip-details').html(detailsHTML);
   },
 
+  sortByDate(trips) {
+    return trips.sort((a, b) => {
+      return new Date(a.date) - new Date(b.date);
+    })
+  },
+
   submitTripRequest(e) {
     e.preventDefault();
     const trip = dom.grabTripDetails(e.data);
@@ -316,6 +350,10 @@ const dom = {
           dom.displayTrips(e.data)
         })
       $('#required').text('wander request successfully submitted').hide().fadeIn(2000).delay(1000).fadeOut(2000);
+      Promise.all([getData(TRIPS_ENDPOINT), getUserDetails(e.data.currentUser.id)])
+        .catch(error => {
+          console.log(error.message);
+        })
     } else {
       $('#required').text('all fields are required').hide().fadeIn(2000).delay(1000).fadeOut(2000);
     }
