@@ -21,6 +21,10 @@ header {
 
 li {
   list-style-type: none;
+  cursor: pointer;
+  &:hover {
+    color: darken($primary-font-color, 20%)
+  }
 }
 
 .hidden {
@@ -39,13 +43,19 @@ li {
 }
 
 .btn {
+  cursor: pointer;
   margin: 5px;
   color: $primary-font-color;
   border-radius: 100%;
+  font-size: 1em;
+  padding: 2px;
   width: 5em;
   height: 5em;
   background-color: $secondary-color;
   border: 1px solid $primary-font-color;
+  &:hover {
+    background-color: darken($secondary-color, 10%);
+  }
 }
 
 .btn-container {

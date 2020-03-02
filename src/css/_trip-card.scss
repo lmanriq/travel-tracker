@@ -24,6 +24,9 @@
   text-align: center;
   .btn {
     background-color: $secondary-font-color;
+    &:hover {
+      background-color: darken($secondary-font-color, 10%);
+    }
   }
   .btn--exit {
     align-self: flex-start;

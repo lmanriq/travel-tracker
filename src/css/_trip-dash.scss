@@ -70,6 +70,9 @@
   text-align: center;
   .btn {
     background-color: $secondary-font-color;
+    &:hover {
+      background-color: darken($secondary-font-color, 10%);
+    }
   }
   select, input {
     width: 100%;
