@@ -62,7 +62,13 @@ Promise.all([getData(TRIPS_ENDPOINT), getData(DESTINATIONS_ENDPOINT), getData(TR
   .then(data => {
     const [tripData, destinationData, travelerData] = data;
     state.trips = tripData.trips.map(trip => new Trip(trip));
-    state.destinations = destinationData.destinations;
+    state.destinations = destinationData.destinations.sort((a, b) => {
+      if (a.destination.toLowerCase() < b.destination.toLowerCase()) {
+        return -1;
+      } else {
+        return 1;
+      };
+    });
     state.travelers = travelerData.travelers;
   })
   .catch(error => {
