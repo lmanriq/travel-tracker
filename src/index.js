@@ -1,7 +1,3 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you import jQuery into a JS file if you use jQuery in that file
 import $ from 'jquery';
 import dom from './domUpdates';
 import User from './classes/User';
@@ -13,7 +9,6 @@ import { BASE, TRAVELERS_ENDPOINT, TRIPS_ENDPOINT, DESTINATIONS_ENDPOINT } from 
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
 
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 const state = {
   currentUser: new User(),
   trips: null,
@@ -37,14 +32,13 @@ const getUserDetails = (login) => {
       console.log(error.message)
     })
 }
-// dom.bindEvents(state);
+
 export const findUser = (e) => {
   const credentials = dom.loginUser();
   const login = state.currentUser.logIn(credentials.username, credentials.password, e.data)
   if (login === 0) {
     console.log(state.currentUser)
     state.currentUser = new TravelAgency(state.currentUser);
-    // state.trips = state.trips.map(trip => new Trip(trip));
     dom.loadTravelAgent(state);
   } else if (login > 0) {
     getUserDetails(login);
