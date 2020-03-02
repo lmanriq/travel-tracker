@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+</html>
+<html lang="en-US" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>wanderful</title>
+    <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
+    <link rel="icon"
+      href="./images/plane-icon.svg"/>
+  </head>
+  <body>
+    <section class="login-screen">
+      <h1 class="text login-header">welcome to wanderful</h1>
+      <div class="background-circle">
+        <i class="fas fa-plane"></i>
+        <form class="login-form">
+          <h2 class="text">start wandering</h2>
+          <label class="text" for="username-input">username</label>
+          <input id="username-input" type="text" name="username" placeholder="username">
+          <label class="text" for="password-input">password</label>
+          <input id="password-input" type="text" name="password" placeholder="password">
+          <p class="alert" id="incorrect-login-alert"></p>
+          <button id="login-btn" class="btn btn--login"type="button" name="login-button">login</button>
+        </form>
+      </div>
+    </section>
+    <section class="traveler-dashboard hidden">
+      <header class="dash-header">
+        <div class="logo-box">
+          <i class="fas fa-plane"></i>
+          <h1>wanderful</h1>
+        </div>
+        <div class="welcome-banner">
+          <h2>welcome, <span id="username-span"></span></h1>
+        </div>
+        <div class="spendings-box">
+          <i class="fas fa-usd-circle"></i>
+          <h3>amount spent this year</h3>
+          <h3>$<span id="amount-spent"></span></h3>
+        </div>
+      </header>
+      <section class="current-trips-section">
+        <h2>upcoming wanderings</h2>
+        <div class="btn-container">
+          <button class="btn btn--pending" type="button" name="sort">show pending</button>
+          <button class="btn btn--all" type="button" name="all">show all</button>
+        </div>
+        <article class="current-trips trips-article">
+        </article>
+      </section>
+      <section class="past-trips-section">
+        <h2>past wanderings</h2>
+        <article class="past-trips trips-article">
+        </article>
+      </section>
+      <section class="add-trip">
+        <section class="trip-selections">
+          <h2 id="side-header">new wandering</h2>
+          <div class="agent-details"></div>
+          <form autocomplete="off" class="trip-form" action="index.html" method="post">
+            <!-- date, duration, numtravelers, destination -->
+            <label for="start-date-picker">start date:</label>
+            <input id="start-date-picker">
+            <label for="start-date-picker">end date:</label>
+            <input id="end-date-picker">
+            <label for="travelers-input">wanderers:</label>
+            <input id="travelers-input" type="number" name="number of travelers" value="1" min="1" max="20">
+            <label for="destinations">destinations:</label>
+            <select id="destination-choices"></select>
+            <div class="btn-container">
+              <button class="btn btn--price" type="button" name="price">show price quote</button>
+              <button class="btn btn--submit" type="submit" name="submit">submit</button>
+            </div>
+            <p id="price"></p>
+            <p id="required"></p>
+            <p>we will contact you when your trip has been approved</p>
+          </form>
+        </section>
+    </section>
+  </section>
+  <article class="expanded-trip-details hidden">
+  </article>
+    <!-- <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px"> -->
+
+    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+  <script type="text/javascript" src="main.bundle.js"></script></body>
+</html>
