@@ -113,6 +113,10 @@ describe('TravelAgency', function() {
   });
 
   it('should get an error message if no user exists', function() {
-    expect(agent.searchForTraveler('Dork Dorkleton', travelerData, tripData, destinationData)).to.eq('User not found');
+    expect(agent.searchForTraveler('Dork Dorkleton', travelerData, tripData, destinationData)).to.eq('no wanderers found by that name');
+  });
+
+  it('should be able to calculate the total revenue for the year', function() {
+    expect(agent.calculateTotalRevenue(travelerData, destinationData, tripData)).to.eq(6370.1);
   });
 });
