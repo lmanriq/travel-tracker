@@ -21,9 +21,7 @@ describe('Traveler', function() {
 
   beforeEach(function() {
     global.window = {};
-    // global.localStorage = {};
     chai.spy.on(window, 'fetch', () => new Promise((resolve, reject) => {}));
-    // chai.spy.on(localStorage, ['getItem', 'setItem'], () => {});
     destinationData = sampleDestinations.destinations;
     travelerData = sampleTravelers.travelers;
     tripData = sampleTrips.trips;
@@ -120,11 +118,6 @@ describe('Traveler', function() {
         body: JSON.stringify(newTrip)
       })
     });
-    // it('should save its trips to local storage', function() {
-    //   expect(localStorage.setItem).to.be.called(1);
-    //   expect(localStorage.setItem).to.be.called.with('myTrips', JSON.stringify(traveler.myTrips));
-    // });
-
   });
 
   it('should be able to calculate the total amount spent on trips', function() {
