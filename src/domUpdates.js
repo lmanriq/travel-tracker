@@ -28,6 +28,9 @@ const dom = {
     });
     $('.traveler-dashboard').on('click', '.trip', state, dom.showTravelDetails);
     $('.expanded-trip-details').on('click', '.btn--exit', state, dom.hideTripDetails);
+    $('form').keypress(function(event) {
+      return event.keyCode !== 13;
+    });
   },
 
   bindTravelerBtns(state) {
@@ -38,13 +41,14 @@ const dom = {
 
   bindAgentBtns(state) {
     dom.bindUniversalBtns(state);
-    $('.trip-form').on('click', 'li', state, dom.showTravelDetails);
+    $('.trip-form').on('click', '.trip-entry', state, dom.showTravelDetails);
     $('.expanded-trip-details').on('click', '.btn--approve', state, dom.approvePendingTrip);
     $('.expanded-trip-details').on('click', '.btn--deny', state, dom.denyPendingTrip);
     $('.btn--search').on('click keyup', function(e) {
       dom.searchAllTravelers(state, e);
     });
-    $('.btn--add-destination').on('click', null, state, dom.addNewDestination)
+    $('.btn--add-destination').on('click', dom.showDestinationForm);
+    $('.expanded-trip-details').on('click', '.btn--confirm-add', state, dom.addNewDestination);
   },
 
   loadTraveler(state) {
@@ -91,7 +95,18 @@ const dom = {
   },
 
   addNewDestination(e) {
-    e.data.currentUser.add
+    const destination = $('#destination-name').val();
+    const lodgingCost = parseInt($('#lodging-cost').val());
+    const flightCost = parseInt($('#flight-cost').val());
+    const url = $('#img-url').val();
+    const alt = $('#img-alt').val();
+    const result = e.data.currentUser.addNewDestination(destination, lodgingCost, flightCost, url, alt);
+    if (result instanceof Promise) {
+      e.data.destinations = getData(DESTINATIONS_ENDPOINT);
+      $('#destination-confirmation').text('destination successfully added').hide().fadeIn(1000).delay(1000).fadeOut(1000);
+    } else {
+      $('#destination-confirmation').text(result).hide().fadeIn(1000).delay(1000).fadeOut(1000);
+    }
   },
 
   approvePendingTrip(e) {
@@ -257,17 +272,43 @@ const dom = {
     }
   },
 
+  showDestinationForm() {
+    const destinationForm = `
+    <button class="btn btn--exit" type="button" name="exit">x</button>
+    <form class="new-destination-form">
+      <h2>add a new destination</h2>
+      <label for="destination-name">destination:</label>
+      <input id="destination-name" type="text" placeholder="london, england">
+      <label for="lodging-cost">lodging cost (usd):</label>
+      <input id="lodging-cost" type="number" placeholder="555" min=0>
+      <label for="flight-cost">flight cost (usd):</label>
+      <input id="flight-cost" type="number" placeholder="444" min=0>
+      <label for="img-url">image url:</label>
+      <input id="img-url" type="text" placeholder="https://image.com">
+      <label for="img-alt">image description:</label>
+      <input id="img-alt" type="text" placeholder="a boat on tranquil waters">
+      <p id="destination-confirmation"></p>
+      <button class="btn btn--confirm-add" type="button" name="confirm add">add destination</button>
+    </form>
+    `
+    $('.expanded-trip-details').before('<section class="overlay"></section>');
+    $('.expanded-trip-details').toggleClass('hidden');
+    $('.expanded-trip-details').addClass('expanded-destination-form');
+    $('.expanded-trip-details').html(destinationForm);
+    $('.btn--exit').focus();
+  },
+
   showTravelerSearch(traveler, state) {
     let trips = traveler.myTrips.map(trip => {
       const dest = state.destinations.find(dest => dest.id === trip.destinationID);
       const startDate = moment(trip.date).format('l');
       let endDate = moment(trip.date).add(trip.duration, 'days').calendar();
       endDate = moment(endDate).format('l');
-      return `<li class="${trip.id}">${dest.destination} (${trip.status})<p>${startDate} - ${endDate}</p></li>`
+      return `<button type="button" data-id="${trip.id}" class="trip-entry"><p>${dest.destination} (${trip.status})</p><p>${startDate} - ${endDate}</p></button>`
     })
     const travelerHTML = `<h2>${traveler.name.toLowerCase()}</h2>
       <p>total spent this year: $${dom.addCommas(traveler.calculateTotalAmountSpent(state.destinations))}</p>
-      <ul>${trips.join('')}</ul>
+      <div class="search-results">${trips.join('')}</div>
       <p>click on a wandering for expanded details</p>`
     $('.search-output').html(travelerHTML);
   },
@@ -314,7 +355,7 @@ const dom = {
   },
 
   showTravelDetails(e) {
-    let targetID = $(e.target).closest('.trip').attr('id') || $(e.target).closest('li').attr('class');
+    let targetID = $(e.target).closest('.trip').attr('id') || $(e.target).closest('.trip-entry').attr('data-id');
     let targetClass = $(e.target).closest('.trip').attr('class');
     targetID = parseInt(targetID);
     const targetTrip = e.data.trips.find(trip => parseInt(trip.id) === targetID);
@@ -327,7 +368,7 @@ const dom = {
     const detailsHTML = `
       <button class="btn btn--exit" type="button" name="exit">x</button>
       <h2>${destination.destination.toLowerCase()}</h2>
-      <h2>${user.name.toLowerCase()}</h2>
+      <h2 ${hidden}>${user.name.toLowerCase()}</h2>
       <p>duration: ${targetTrip.duration} days</p>
       <p>wanderers: ${targetTrip.travelers}</p>
       <p>status: ${targetTrip.status}</p>
@@ -340,6 +381,7 @@ const dom = {
       </div>`
     $('.expanded-trip-details').before('<section class="overlay"></section>');
     $('.expanded-trip-details').toggleClass('hidden');
+    $('.expanded-trip-details').removeClass('expanded-destination-form');
     $('.expanded-trip-details').attr('id', targetID);
     $('.expanded-trip-details').html(detailsHTML);
     $('.btn--exit').focus();
