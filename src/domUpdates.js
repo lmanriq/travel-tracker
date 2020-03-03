@@ -5,7 +5,8 @@ import TravelAgency from './classes/TravelAgency';
 import { BASE, TRAVELER_ENDPOINT, TRIPS_ENDPOINT } from './constants/constants';
 import {
   findUser,
-  getData
+  getData,
+  sortByDate
 } from './index';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
@@ -123,9 +124,9 @@ const dom = {
   },
 
   displayTrips(state) {
-    const currentTrips = dom.sortByDate(state.currentUser.showCurrentTrips(state.trips));
-    const pastTrips = dom.sortByDate(state.currentUser.showPastTrips(state.trips));
-    const futureTrips = dom.sortByDate(state.currentUser.showFutureTrips(state.trips));
+    const currentTrips = sortByDate(state.currentUser.showCurrentTrips(state.trips));
+    const pastTrips = sortByDate(state.currentUser.showPastTrips(state.trips));
+    const futureTrips = sortByDate(state.currentUser.showFutureTrips(state.trips));
     const currentTripCards = currentTrips.map(trip => {
       const destination = state.destinations.find(destination => destination.id === parseInt(trip.destinationID));
       return dom.makeTripCard(trip, destination, 'current');
@@ -227,8 +228,8 @@ const dom = {
   },
 
   showCountdownDetails(state) {
-    const currentTrips = dom.sortByDate(state.currentUser.showCurrentTrips(state.trips));
-    const futureTrips = dom.sortByDate(state.currentUser.showFutureTrips(state.trips));
+    const currentTrips = sortByDate(state.currentUser.showCurrentTrips(state.trips));
+    const futureTrips = sortByDate(state.currentUser.showFutureTrips(state.trips));
     if (currentTrips.length) {
       const currentTrip = currentTrips[0];
       const destination = state.destinations.find(dest => dest.id === currentTrip.destinationID);
@@ -286,7 +287,7 @@ const dom = {
 
   showPendingTrips(state) {
     const user = state.currentUser;
-    const pending = dom.sortByDate(user.showPendingTrips(state.trips));
+    const pending = sortByDate(user.showPendingTrips(state.trips));
     const pendingCards = pending.map(trip => {
       const destination = state.destinations.find(destination => destination.id === trip.destinationID);
       return dom.makeTripCard(trip, destination);
@@ -314,7 +315,7 @@ const dom = {
       <button class="btn btn--exit" type="button" name="exit">x</button>
       <h2>${destination.destination.toLowerCase()}</h2>
       <h2>${user.name.toLowerCase()}</h2>
-      <p>duration: ${targetTrip.duration}</p>
+      <p>duration: ${targetTrip.duration} days</p>
       <p>wanderers: ${targetTrip.travelers}</p>
       <p>status: ${targetTrip.status}</p>
       <p>total cost: $${dom.addCommas(cost.totalCost)}</p>
@@ -329,12 +330,6 @@ const dom = {
     $('.expanded-trip-details').attr('id', targetID);
     $('.expanded-trip-details').html(detailsHTML);
     $('.btn--exit').focus();
-  },
-
-  sortByDate(trips) {
-    return trips.sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
-    })
   },
 
   submitTripRequest(e) {

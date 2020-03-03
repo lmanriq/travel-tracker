@@ -59,6 +59,12 @@ export const getData = (endpoint) => {
     })
 }
 
+export const sortByDate = (trips) => {
+  return trips.sort((a, b) => {
+    return new Date(a.date) - new Date(b.date);
+  })
+}
+
 Promise.all([getData(TRIPS_ENDPOINT), getData(DESTINATIONS_ENDPOINT), getData(TRAVELERS_ENDPOINT)])
   .then(data => {
     const [tripData, destinationData, travelerData] = data;
