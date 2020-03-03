@@ -6,7 +6,6 @@ import Trip from './classes/Trip';
 import TravelAgency from './classes/TravelAgency';
 import { BASE, TRAVELERS_ENDPOINT, TRIPS_ENDPOINT, DESTINATIONS_ENDPOINT } from './constants/constants';
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
 
 const state = {
@@ -82,4 +81,4 @@ Promise.all([getData(TRIPS_ENDPOINT), getData(DESTINATIONS_ENDPOINT), getData(TR
     throw error;
   })
 
-dom.bindLoginButton(state) ;
+dom.bindLoginButton(state);
