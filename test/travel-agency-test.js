@@ -3,7 +3,7 @@ import spies from 'chai-spies';
 import sampleTravelers from '../src/sample-data/sample-traveler-data';
 import sampleTrips from '../src/sample-data/sample-trip-data';
 import sampleDestinations from '../src/sample-data/sample-destination-data';
-import { BASE, TRIPS_MODIFICATION_ENDPOINT } from '../src/constants/constants';
+import { BASE, DESTINATIONS_ENDPOINT, TRIPS_MODIFICATION_ENDPOINT } from '../src/constants/constants';
 import TravelAgency from '../src/classes/TravelAgency';
 import Trip from '../src/classes/Trip';
 
@@ -51,6 +51,26 @@ describe('TravelAgency', function() {
   it('should be an agent as traveler type', function() {
     expect(agent.travelerType).to.eq('agent');
   });
+
+  it('should be able to add new destinations', function() {
+    agent.addNewDestination('Aruba', 555, 222, "https://images.unsplash.com/photo-1558117338-aa433feb1c62?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1653&q=80", "A boat at a pier on clear water", 55);
+    const newDestination = {
+      id: 55,
+      destination: 'Aruba',
+      estimatedLodgingCostPerDay: 555,
+      estimatedFlightCostPerPerson: 222,
+      image: "https://images.unsplash.com/photo-1558117338-aa433feb1c62?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1653&q=80",
+      alt: "A boat at a pier on clear water"
+    }
+    expect(window.fetch).to.be.called(1);
+    expect(window.fetch).to.be.called.with(BASE + DESTINATIONS_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newDestination)
+    });
+  })
 
   it('should be able to approve trip requests', function() {
     agent.approveRequest(5)
