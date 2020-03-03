@@ -17,6 +17,9 @@ header {
   @include flex-center(row);
   margin: 0 25px;
   justify-content: space-between;
+  @include media-query {
+    display: block;
+  }
 }
 
 .background-circle,
@@ -49,6 +52,9 @@ li {
   'past past add';
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
+  @include media-query {
+    display: block;
+  }
 }
 
 .btn {

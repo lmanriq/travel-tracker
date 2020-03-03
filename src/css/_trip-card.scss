@@ -32,4 +32,10 @@
     align-self: flex-start;
     margin: 0 0 0 10px;
   }
+  @include media-query {
+    width: 75%;
+    top: 20%;
+    left: 0;
+    padding: 50px;
+  }
 }
