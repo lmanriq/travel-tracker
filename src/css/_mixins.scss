@@ -11,6 +11,11 @@
   -webkit-text-stroke-color: $border;
 }
 
+@mixin remove-btn-styling() {
+  background: none;
+  border: none;
+  font-size: 0.8em;
+}
 
 // Cristina Peña  4 minutes ago
 // @mixin sm {

@@ -17,7 +17,7 @@
   height: auto;
   width: auto;
   padding: 30px;
-  top: 20%;
+  top: 10%;
   left: 20%;
   background-color: $secondary-color;
   border-radius: 10px;
@@ -31,10 +31,16 @@
   .btn--exit {
     align-self: flex-start;
     margin: 0 0 0 10px;
+    height: 3em;
+    width: 3em;
+  }
+  .btn--confirm-add {
+    height: 6em;
+    width: 6em;
   }
   @include media-query {
     width: 75%;
-    top: 20%;
+    top: 0;
     left: 0;
     padding: 50px;
   }

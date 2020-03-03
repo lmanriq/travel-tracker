@@ -52,12 +52,10 @@
 
 button.trip {
   @include flex-center(column);
-  background: none;
-  border: none;
+  @include remove-btn-styling;
   position: relative;
   text-align: center;
   cursor: pointer;
-  font-size: 0.8em;
   .trip-details {
     @include flex-center(column);
     background-color: $primary-color;
@@ -120,4 +118,12 @@ input,
 select {
   height: 1.8em;
   font-size: 1em;
+}
+
+.search-results {
+  @include flex-center(column);
+}
+
+.trip-entry {
+  @include remove-btn-styling;
 }
