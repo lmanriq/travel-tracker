@@ -9,30 +9,34 @@ class TravelAgency extends User {
   }
 
   addNewDestination(destination, lodgingCost, flightCost, url, alt, id) {
-    const newDestination = {
-      id: parseInt(id) || new Date(),
-      destination: destination,
-      estimatedLodgingCostPerDay: parseInt(lodgingCost),
-      estimatedFlightCostPerPerson: parseInt(flightCost),
-      image: url,
-      alt: alt
-    }
-    window.fetch(BASE + DESTINATIONS_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newDestination)
-      })
-      .then(response => {
-        console.log(response.status)
-        return response.json()
-      })
-      .then(data => data)
-      .catch(error => {
-        throw error
+    if (destination && lodgingCost && flightCost && url && alt) {
+      const newDestination = {
+        id: id ? parseInt(id) : new Date().getTime(),
+        destination: destination,
+        estimatedLodgingCostPerDay: parseInt(lodgingCost),
+        estimatedFlightCostPerPerson: parseInt(flightCost),
+        image: url,
+        alt: alt
       }
-    )
+      window.fetch(BASE + DESTINATIONS_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newDestination)
+        })
+        .then(response => {
+          console.log(response.status)
+          return response.json()
+        })
+        .then(data => data)
+        .catch(error => {
+          throw error
+        }
+      )
+    } else {
+      return `all inputs are required`
+    }
   }
 
   approveRequest(tripID) {
