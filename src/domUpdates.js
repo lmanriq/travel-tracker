@@ -41,7 +41,7 @@ const dom = {
 
   bindAgentBtns(state) {
     dom.bindUniversalBtns(state);
-    $('.trip-form').on('click', '.trip-entry', state, dom.showTravelDetails);
+    $('.search-results-box').on('click', '.trip-entry', state, dom.showTravelDetails);
     $('.expanded-trip-details').on('click', '.btn--approve', state, dom.approvePendingTrip);
     $('.expanded-trip-details').on('click', '.btn--deny', state, dom.denyPendingTrip);
     $('.btn--search').on('click keyup', function(e) {
@@ -139,9 +139,9 @@ const dom = {
     $('#side-header').text('search all wanderers');
     const searchForm = `<label for="traveler-search">name:</label>
       <input id="traveler-search" type="text">
-      <button class="btn btn--search" type="button" name="search">search</button>
-      <div class="search-output"></div>`
+      <button class="btn btn--search" type="button" name="search">search</button>`
     $('.trip-form').html(searchForm);
+    $('.search-results-box').html(`<div class="search-output"></div>`);
   },
 
   displayTrips(state) {
@@ -167,7 +167,6 @@ const dom = {
   refreshTrips(e) {
     getData(TRIPS_ENDPOINT)
       .then(data => {
-        console.log(e.data.currentUser)
         e.data.trips = data.trips.map(trip => new Trip(trip));
         dom.displayTrips(e.data);
       })
