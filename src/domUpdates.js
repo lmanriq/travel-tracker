@@ -44,6 +44,7 @@ const dom = {
     $('.btn--search').on('click keyup', function(e) {
       dom.searchAllTravelers(state, e);
     });
+    $('.btn--add-destination').on('click', null, state, dom.addNewDestination)
   },
 
   loadTraveler(state) {
@@ -58,6 +59,7 @@ const dom = {
 
   loadTravelAgent(state) {
     dom.loadDashboard(state);
+    dom.instertAddDestinationBtn();
     dom.showCurrentTravelers(state);
     dom.displayTravelerSearch(state);
     dom.displayTrips(state);
@@ -86,6 +88,10 @@ const dom = {
     })
     const destHTML = destinationOptions.join('');
     $('#destination-choices').html(destHTML);
+  },
+
+  addNewDestination(e) {
+    e.data.currentUser.add
   },
 
   approvePendingTrip(e) {
@@ -179,6 +185,11 @@ const dom = {
     $('.overlay').remove();
   },
 
+  instertAddDestinationBtn() {
+
+    $('.spendings-box').append(`<button class="btn btn--add-destination" type="button" name="add-destination">add new destination</button>`)
+  },
+
   loadDashboard(state) {
     $('.login-screen').hide();
     $('.traveler-dashboard').toggleClass('hidden');
@@ -234,13 +245,15 @@ const dom = {
       const currentTrip = currentTrips[0];
       const destination = state.destinations.find(dest => dest.id === currentTrip.destinationID);
       $('.countdown').text(`you're in ${destination.destination.toLowerCase()}! happy wandering.`);
-    } else {
+    } else if (futureTrips.length) {
       const nextTrip = futureTrips[0];
       const destination = state.destinations.find(dest => dest.id === nextTrip.destinationID);
       const travelDate = moment(nextTrip.date, 'YYYY/MM/DD').unix();
       const today = moment().unix();
       const diff = travelDate - today;
       dom.showCountdownClock(diff, destination);
+    } else {
+      $('.countdown').text(`no upcoming wanderings. schedule one today!`);
     }
   },
 
