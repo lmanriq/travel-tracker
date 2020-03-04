@@ -44,7 +44,7 @@ class TravelAgency extends User {
       id: tripID,
       status: 'approved'
     }
-    window.fetch(BASE + TRIPS_MODIFICATION_ENDPOINT, {
+    return window.fetch(BASE + TRIPS_MODIFICATION_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

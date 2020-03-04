@@ -111,16 +111,16 @@ const dom = {
 
   approvePendingTrip(e) {
     const tripID = parseInt($('.expanded-trip-details').attr('id'));
-    e.data.currentUser.approveRequest(tripID);
+    e.data.currentUser.approveRequest(tripID)
+      .then(dom.refreshTrips(e));
     $('#success-msg').text('Trip successfully approved.')
-    dom.refreshTrips(e)
   },
 
   denyPendingTrip(e) {
     const tripID = parseInt($('.expanded-trip-details').attr('id'));
-    e.data.currentUser.denyRequest(tripID, e.data.trips);
+    e.data.currentUser.denyRequest(tripID, e.data.trips)
+      .then(dom.refreshTrips(e));
     $('#success-msg').text('Trip successfully denied.');
-    dom.refreshTrips(e);
   },
 
   displayAmountSpentTraveler(state) {
@@ -171,7 +171,7 @@ const dom = {
         dom.displayTrips(e.data);
       })
       .catch(error => {
-        console.log(error.message)
+        approve(error.message)
       })
   },
 
