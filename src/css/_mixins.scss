@@ -17,42 +17,8 @@
   font-size: 0.8em;
 }
 
-// Cristina Peña  4 minutes ago
-// @mixin sm {
-//   @media (min-width: #{$screen-sm}) {
-//     @content;
-//     @include small-screen-header;
-//     @include grid-defaults(1);
-//   }
-//   .main-header {
-//     flex-flow: column nowrap;
-//   }
-// }
-
-//
-// @mixin for-phone {
-//   @media (max-width: 480px) {
-//     @content;
-//     @include larger-circle;
-//   }
-// }
-
 @mixin media-query {
   @media (max-width: $brkpoint-sm) {
     @content;
   }
 }
-
-// .traveler-dashboard {
-//   display: block;
-// }
-// h1 {
-//   font-size: 4em;
-//   margin: 30px;
-// }
-// .dash-header {
-//   display: block;
-// }
-// .logo-box {
-//   width: auto;
-// }
