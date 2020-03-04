@@ -70,6 +70,10 @@ describe('TravelAgency', function() {
       },
       body: JSON.stringify(newDestination)
     });
+  });
+
+  it('should not be able to post a new destination with falsy values', function() {
+    expect(agent.addNewDestination('Aruba', 555, 222, null, "A boat at a pier on clear water", 55)).to.eq('all inputs are required')
   })
 
   it('should be able to approve trip requests', function() {
