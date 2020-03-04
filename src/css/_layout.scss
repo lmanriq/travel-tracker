@@ -30,15 +30,6 @@ header {
   background-size: cover;
 }
 
-li {
-  list-style-type: none;
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    color: darken($primary-font-color, 20%)
-  }
-}
-
 .hidden {
   display: none !important;
 }
@@ -71,6 +62,15 @@ li {
   &:hover,
   &:focus {
     background-color: darken($secondary-color, 10%);
+  }
+}
+
+.spendings-box {
+  @include flex-center(column);
+  .btn {
+    width: 7em;
+    height: 4em;
+    border-radius: 20%;
   }
 }
 

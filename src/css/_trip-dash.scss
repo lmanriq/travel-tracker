@@ -122,6 +122,12 @@ select {
 
 .search-results {
   @include flex-center(column);
+  .trip-entry {
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+  }
 }
 
 .trip-entry {
