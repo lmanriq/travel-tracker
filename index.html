@@ -3,6 +3,7 @@
 <html lang="en-US" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>wanderful</title>
     <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
   </head>
@@ -10,7 +11,6 @@
     <section class="login-screen">
       <h1 class="text login-header">welcome to wanderful</h1>
       <div class="background-circle">
-        <i class="fas fa-plane"></i>
         <form class="login-form">
           <h3 class="text">start wandering</h3>
           <label class="text" for="username-input">username</label>
@@ -25,7 +25,6 @@
     <section class="traveler-dashboard hidden">
       <header class="dash-header">
         <div class="logo-box">
-          <i class="fas fa-plane"></i>
           <h1>wanderful</h1>
         </div>
         <div class="welcome-banner">
@@ -33,7 +32,6 @@
             <h3 class="countdown"></h3>
         </div>
         <div class="spendings-box">
-          <i class="fas fa-usd-circle"></i>
           <h3>amount spent this year</h3>
           <h3>$<span id="amount-spent"></span></h3>
         </div>
@@ -74,14 +72,12 @@
               <p id="required"></p>
               <p>we will contact you when your trip has been approved</p>
             </form>
+            <div class="search-results-box"></div>
           </section>
         </div>
     </section>
   </section>
   <article class="expanded-trip-details hidden">
   </article>
-    <!-- <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px"> -->
-
-    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
   <script type="text/javascript" src="main.bundle.js"></script></body>
 </html>
