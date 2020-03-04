@@ -6,15 +6,15 @@
 
 ## Traveler dashboard
 
-username: traveler1-50 (number is the user id)
-password: travel2020
+- username: traveler1-50 (number is the user id)
+- password: travel2020
 
 ![traveler dash screenshot](src/images/traveler-screenshot.png)
 
 ## Agency Dashboard
 
-username: agency
-password: travel2020
+- username: agency
+- password: travel2020
 
 ![agency dash screenshot](src/images/agency-screenshot-1.png)
 ![agency dash expanded card screenshot](src/images/agency-screenshot-2.png)
