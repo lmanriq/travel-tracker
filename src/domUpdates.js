@@ -298,7 +298,11 @@ const dom = {
   },
 
   showTravelerSearch(traveler, state) {
-    let trips = traveler.myTrips.map(trip => {
+    let activeTrips = traveler.myTrips.filter(trip => {
+      return moment(trip.date).format('l') < moment(new Date()).format('l');
+    });
+    activeTrips = sortByDate(activeTrips);
+    let trips = activeTrips.map(trip => {
       const dest = state.destinations.find(dest => dest.id === trip.destinationID);
       const startDate = moment(trip.date).format('l');
       let endDate = moment(trip.date).add(trip.duration, 'days').calendar();
